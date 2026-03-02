@@ -12,7 +12,30 @@ These datasets help inform my media-related projects.
 
 ## SPARQL queries
 
+### Credit-Related Properties
+
+**Note:** some credits might be related to other unexpected forms of performance/entertainment (may include live/stage).
+
+| Type | Property | Note | 
+| --- | --- | --- |
+| after a work by | P1877 | might not be film |
+| cast member | P161 | |
+| cinematographer | P344 | 'director of photography' |
+| composer | P86 |  |
+| costume designer | P2515 |  |
+| executive producer | P1431 |  |
+| film editor | P1040 |  |
+| producer | P162 |  |
+| production designer | P2554 |  |
+| recorded-participant | P11108  |  |
+| screenwriter | P58 |  |
+| sound designer | P5028 |  |
+| voice actor | 725 |  |
+| translator | P655 | monitored specifically from film/tv content |
+
 ### Media-Related Alternate IDs
+
+**Note:** other wikidata properties https://www.wikidata.org/wiki/Wikidata:WikiProject_Movies/Properties/identifiers
 
 | Dataset | Property | Note | 
 | --- | --- | --- |

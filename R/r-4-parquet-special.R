@@ -19,8 +19,8 @@ write_parquet(
   sink = "release/special-wd_intl_submissions.parquet"
 )
 
-wd_lang_list <-
-  jsonlite::fromJSON( "json/special_queries/wd_lang_list.json")$results$bindings %>%
+wd_languages <-
+  jsonlite::fromJSON( "json/special_queries/wd_languages.json")$results$bindings %>%
   reframe(
     lang_QID = basename(item$value),
     language = wdlabelen$value,
@@ -28,6 +28,29 @@ wd_lang_list <-
   )
 
 write_parquet(
-  x = wd_lang_list, 
-  sink = "release/special-wd_lang_list.parquet"
+  x = wd_languages, 
+  sink = "release/special-wd_languages.parquet"
+)
+
+wd_origins <-
+  jsonlite::fromJSON( "json/special_queries/wd_origins.json")$results$bindings %>%
+  reframe(
+    QID = basename(item$value),
+    shortCode = shortCode$value,
+  )
+
+write_parquet(
+  x = wd_origins, 
+  sink = "release/special-wd_origins.parquet"
+)
+
+wd_genres <-
+  jsonlite::fromJSON( "json/special_queries/wd_genres.json")$results$bindings %>%
+  reframe(
+    QID = basename(item$value)
+  )
+
+write_parquet(
+  x = wd_genres, 
+  sink = "release/special-wd_genres.parquet"
 )

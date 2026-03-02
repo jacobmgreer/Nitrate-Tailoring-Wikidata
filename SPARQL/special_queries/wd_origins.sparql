@@ -1,0 +1,5 @@
+SELECT DISTINCT ?origin ?shortCode WHERE {
+  ?item wdt:P495 ?origin.
+  OPTIONAL { ?origin wdt:P297 ?shortCode. }
+}
+ORDER BY ?shortCode
