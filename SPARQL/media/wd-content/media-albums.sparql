@@ -1,0 +1,4 @@
+SELECT DISTINCT ?item ?date WHERE {
+  ?item (wdt:P31/(wdt:P279*)) wd:Q482994;
+    schema:dateModified ?date.
+}
