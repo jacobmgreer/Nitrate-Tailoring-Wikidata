@@ -30,12 +30,15 @@ jobs:
           # Use ISO week-numbering year and week (YYYY-WW)
           echo "RELEASE_TAG=$(date -u +%G-%V)" >> "$GITHUB_ENV"
           echo "RELEASE_NAME=Weekly Release ${RELEASE_TAG}" >> "$GITHUB_ENV"
+          # Add release description/body:
+          echo "RELEASE_BODY=Automated release for ${RELEASE_TAG}" >> "$GITHUB_ENV"
 
       - name: Create or update weekly release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_NAME }}
+          body: ${{ env.RELEASE_BODY }}
           files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
