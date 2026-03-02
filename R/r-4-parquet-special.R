@@ -35,22 +35,13 @@ write_parquet(
 wd_origins <-
   jsonlite::fromJSON( "json/special_queries/wd_origins.json")$results$bindings %>%
   reframe(
-    QID = basename(item$value),
+    QID = basename(origin$value),
     shortCode = shortCode$value,
-  )
+    updated = date$value
+  ) %>%
+  filter(grepl("^Q", QID))
 
 write_parquet(
   x = wd_origins, 
   sink = "release/special-wd_origins.parquet"
-)
-
-wd_genres <-
-  jsonlite::fromJSON( "json/special_queries/wd_genres.json")$results$bindings %>%
-  reframe(
-    QID = basename(item$value)
-  )
-
-write_parquet(
-  x = wd_genres, 
-  sink = "release/special-wd_genres.parquet"
 )

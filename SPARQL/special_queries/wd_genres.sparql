@@ -1,3 +1,0 @@
-SELECT DISTINCT ?genre WHERE {
-  ?item wdt:P136 ?genre.
-}
