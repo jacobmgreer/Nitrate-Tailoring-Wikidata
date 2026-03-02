@@ -1,0 +1,49 @@
+name: SPARQL Weekly Release
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyverse
+            any::arrow
+            any::jsonlite
+
+      - name: Run SPARQL script
+        run: Rscript R/nightly.R
+
+      - name: Set weekly release tag
+        run: |
+          # Use ISO week-numbering year and week (YYYY-WW)
+          echo "RELEASE_TAG=$(date -u +%G-%V)" >> "$GITHUB_ENV"
+          echo "RELEASE_NAME=Weekly Release ${RELEASE_TAG}" >> "$GITHUB_ENV"
+
+      - name: Create or update weekly release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_NAME }}
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2.0.6
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 7
+          keep_minimum_runs: 6

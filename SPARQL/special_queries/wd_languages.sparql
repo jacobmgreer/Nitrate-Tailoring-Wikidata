@@ -1,0 +1,12 @@
+SELECT ?item ?c ?wdlabelen WHERE {
+  ?item wdt:P424 ?c.
+  hint:Prior hint:rangeSafe "true"^^xsd:boolean.
+  MINUS { ?item wdt:P31 wd:Q47495990. }
+  MINUS { ?item (wdt:P31/(wdt:P279*)) wd:Q14827288. }
+  MINUS { ?item (wdt:P31/(wdt:P279*)) wd:Q17442446. }
+  OPTIONAL {
+    ?item rdfs:label ?wdlabelen.
+    FILTER((LANG(?wdlabelen)) = "en")
+  }
+}
+ORDER BY (?wdlabelen)

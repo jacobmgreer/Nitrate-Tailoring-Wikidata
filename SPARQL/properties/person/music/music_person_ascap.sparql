@@ -1,0 +1,4 @@
+SELECT ?item ?value ?date WHERE {
+  ?item wdt:P10550 ?value;
+    schema:dateModified ?date.
+}

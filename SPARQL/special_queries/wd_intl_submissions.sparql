@@ -1,0 +1,14 @@
+SELECT DISTINCT ?film ?filmLabel ?submission_title ?year ?country ?countryLabel ?ceremony ?ceremonyLabel ?imdb ?letterboxd ?eidr WHERE {
+  ?film p:P1411 ?statement0.
+  ?statement0 ps:P1411 wd:Q125506406;
+    pq:P585 ?date;
+    pq:P1810 ?submission_title;
+    pq:P2453 ?country;
+    pq:P793 ?ceremony.
+  BIND(STR(YEAR(?date)) AS ?year)
+  OPTIONAL { ?film wdt:P345 ?imdb. }
+  OPTIONAL { ?film wdt:P6127 ?letterboxd. }
+  OPTIONAL { ?film wdt:P2704 ?eidr. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY (?ceremonyLabel) (?countryLabel)
