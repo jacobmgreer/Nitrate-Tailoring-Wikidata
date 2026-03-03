@@ -24,7 +24,8 @@ wd_languages <-
   reframe(
     lang_QID = basename(item$value),
     language = wdlabelen$value,
-    code = c$value
+    code = c$value,
+    updated = date$value
   )
 
 write_parquet(

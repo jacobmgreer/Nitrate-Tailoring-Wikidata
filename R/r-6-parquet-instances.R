@@ -1,6 +1,6 @@
 files <-
   list.files(
-    path = "json/media",
+    path = "json/instances",
     pattern = ".json",
     recursive = T,
     full.names = T

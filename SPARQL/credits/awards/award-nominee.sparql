@@ -1,0 +1,5 @@
+SELECT ?nominee ?nominee_updated ?award ?award_updated WHERE {
+  ?nominee wdt:P1411 ?award;
+    schema:dateModified ?nominee_updated.
+  ?award schema:dateModified ?award_updated.
+}

@@ -1,5 +1,6 @@
-SELECT ?item ?c ?wdlabelen WHERE {
-  ?item wdt:P424 ?c.
+SELECT ?item ?c ?wdlabelen ?date WHERE {
+  ?item wdt:P424 ?c;
+        schema:dateModified ?date.
   hint:Prior hint:rangeSafe "true"^^xsd:boolean.
   MINUS { ?item wdt:P31 wd:Q47495990. }
   MINUS { ?item (wdt:P31/(wdt:P279*)) wd:Q14827288. }

@@ -1,0 +1,5 @@
+SELECT ?content ?content_updated ?company ?company_updated WHERE {
+  ?content wdt:P750 ?company;
+    schema:dateModified ?content_updated.
+  ?company schema:dateModified ?company_updated.
+}
