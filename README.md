@@ -1,9 +1,25 @@
 # Wikidata SPARQL queries media-related data
 
-Nightly updates with a weekly release archived.
-Uses Github Actions to pull and manipulate various media-related data point from Wikidata.
+# Nitrate-Tailoring-Wikidata
 
-These datasets help inform my media-related projects.
+**Role in who-db:** Nightly Wikidata catalog builder. Executes a curated library of SPARQL queries against the Wikidata Query Service and packages the results as Parquet files in a GitHub Release — defining which QIDs are relevant to the `who-db` ecosystem.
+
+## What this repo does
+
+`Nitrate-Tailoring-Wikidata` maintains a directory of `.sparql` files organized by domain. Each night, GitHub Actions executes all queries and uploads the resulting Parquet files to a versioned GitHub Release. These releases are the **catalog manifest** for `db-wikidata`: every QID that appears in any release file is a QID that `db-wikidata` should maintain a local property cache for.
+
+This repo **does not store Wikidata property data** — it only stores the catalog of relevant QIDs + their last-updated timestamps.
+
+## GitHub Release naming
+
+Releases follow a `YYYY-MM-DD` tag pattern. All query outputs for a given night are uploaded to the same release.
+
+## Tech stack
+
+- **Language:** R (`httr`, `jsonlite`, `arrow`, `dplyr`)
+- **Orchestration:** GitHub Actions (nightly cron)
+- **Query protocol:** SPARQL 1.1 over HTTPS, JSON response format
+- **Storage:** Apache Parquet, published as GitHub Release assets
 
 <!-- 
 | Dataset | Property | Note | 
