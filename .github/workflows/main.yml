@@ -27,11 +27,12 @@ jobs:
 
       - name: Set weekly release tag
         run: |
-          # Use ISO week-numbering year and week (YYYY-WW)
-          echo "RELEASE_TAG=$(date -u +%G-%V)" >> "$GITHUB_ENV"
-          echo "RELEASE_NAME=Weekly Release ${RELEASE_TAG}" >> "$GITHUB_ENV"
-          # Add release description/body:
-          echo "RELEASE_BODY=Automated release for ${RELEASE_TAG}" >> "$GITHUB_ENV"
+          # Compute ISO week-numbering year and week (YYYY-WW) into a shell variable,
+          # then write that value into GITHUB_ENV so subsequent steps see it.
+          TAG=$(date -u +%G-%V)
+          echo "RELEASE_TAG=$TAG" >> "$GITHUB_ENV"
+          echo "RELEASE_NAME=Weekly Release $TAG" >> "$GITHUB_ENV"
+          echo "RELEASE_BODY=Automated release for $TAG" >> "$GITHUB_ENV"
 
       - name: Create or update weekly release
         uses: softprops/action-gh-release@v2
