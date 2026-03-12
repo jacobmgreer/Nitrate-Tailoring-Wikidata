@@ -5,22 +5,54 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
 
+# Allow the release action to create/update releases
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-release
+  cancel-in-progress: true
+
 jobs:
   generate-data:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    env:
+      # R version (re-used in cache key)
+      R_VERSION: "4.1"
+      # Use a temporary path for user-installed R packages so we can cache it
+      R_LIBS_USER: ${{ runner.temp }}/Rlibs
 
-      - uses: r-lib/actions/setup-r@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
+          r-version: ${{ env.R_VERSION }}
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Cache R libraries
+        uses: actions/cache@v4
         with:
-          packages: |
+          path: ${{ env.R_LIBS_USER }}
+          # Prefer renv.lock for cache key if you use renv; otherwise DESCRIPTION at repo root
+          key: ${{ runner.os }}-r-${{ env.R_VERSION }}-${{ hashFiles('renv.lock') }}-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: |
+            ${{ runner.os }}-r-${{ env.R_VERSION }}-
+
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          pak-version: "stable"    # options: stable | repo | none
+          cache: true              # enable pak's package cache (speeds repeated runs)
+          extra-packages: |
             any::tidyverse
             any::arrow
             any::jsonlite
+            any::httr
+            any::curl
+            any::readr
 
       - name: Run SPARQL script
         run: Rscript R/nightly.R
@@ -35,6 +67,7 @@ jobs:
           echo "RELEASE_BODY=Automated release for $TAG" >> "$GITHUB_ENV"
 
       - name: Create or update weekly release
+        if: ${{ success() }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
@@ -46,7 +79,7 @@ jobs:
 
       - name: Delete workflow runs
         if: ${{ always() }}
-        uses: Mattraks/delete-workflow-runs@v2.1.0
+        uses: Mattraks/delete-workflow-runs@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
