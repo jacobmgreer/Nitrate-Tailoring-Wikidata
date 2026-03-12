@@ -19,15 +19,18 @@ jobs:
     env:
       # R version (re-used in cache key)
       R_VERSION: "4.1"
-      # Use a temporary path for user-installed R packages so we can cache it
-      R_LIBS_USER: ${{ runner.temp }}/Rlibs
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
+
+      - name: Prepare R library dir
+        run: |
+          # Set R_LIBS_USER to the runner temporary directory so we can cache it
+          echo "R_LIBS_USER=${RUNNER_TEMP}/Rlibs" >> $GITHUB_ENV
 
       - name: Setup R
-        uses: r-lib/actions/setup-r@v2
+        uses: r-lib/actions/setup-r@v2.11.4
         with:
           r-version: ${{ env.R_VERSION }}
           use-public-rspm: true
@@ -35,14 +38,14 @@ jobs:
       - name: Cache R libraries
         uses: actions/cache@v4
         with:
-          path: ${{ env.R_LIBS_USER }}
+          path: ${{ runner.temp }}/Rlibs
           # Prefer renv.lock for cache key if you use renv; otherwise DESCRIPTION at repo root
           key: ${{ runner.os }}-r-${{ env.R_VERSION }}-${{ hashFiles('renv.lock') }}-${{ hashFiles('DESCRIPTION') }}
           restore-keys: |
             ${{ runner.os }}-r-${{ env.R_VERSION }}-
 
       - name: Install dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+        uses: r-lib/actions/setup-r-dependencies@v2.11.4
         with:
           pak-version: "stable"    # options: stable | repo | none
           cache: true              # enable pak's package cache (speeds repeated runs)
