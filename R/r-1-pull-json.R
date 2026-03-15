@@ -15,6 +15,7 @@ for (i in files) {
     showWarnings = FALSE,
     recursive = TRUE
   )
+  message("Trying file: ", i)
   tryCatch({
     # Read lines and strip comments
     query_lines <- read_lines(i)
