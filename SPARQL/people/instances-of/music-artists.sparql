@@ -1,0 +1,18 @@
+SELECT ?prop ?p31 ?p31_updated (COUNT(DISTINCT ?record) AS ?record_count) WHERE {
+  VALUES ?prop { 
+    wdt:P2850 # Apple Music artist id
+    wdt:P3283 # Bandcamp profile id
+    wdt:P4457 # DAHR (Discography of American Historical Recordings) artist id
+    wdt:P1953 # Discogs artist id
+    wdt:P3192 # Last.fm artist id
+    wdt:P9509 # Mixcloud user id
+    wdt:P434 # MusicBrainz artist id
+    wdt:P3040 # SoundCloud id
+    wdt:P1902 # Spotify artist id
+  }
+  ?record ?prop ?value.
+  ?record wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated
+}
+GROUP BY ?prop ?p31 ?p31_updated
+ORDER BY ?prop DESC(?record_count)

@@ -50,11 +50,8 @@ jobs:
           pak-version: "stable"    # options: stable | repo | none
           cache: true              # enable pak's package cache (speeds repeated runs)
           extra-packages: |
-            any::tidyverse
-            any::arrow
-            any::jsonlite
-            any::httr
-            any::curl
+            any::duckdb
+            any::stringr
             any::readr
 
       - name: Run SPARQL script

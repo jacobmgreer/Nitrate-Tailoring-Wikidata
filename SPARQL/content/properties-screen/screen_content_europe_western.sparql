@@ -1,0 +1,32 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P1265 # French AlloCiné (France)
+    wdt:P2639 # Filmportal.de (Germany)
+    wdt:P2703 # BFI's Collections Information Database (UK)
+    wdt:P2755 # exploitation mark (France)
+    wdt:P2970 # Kinopolis (Germany)
+    wdt:P3077 # Cineplex (Germany)
+    wdt:P3107 # Lexicon of International Films (Germany)
+    wdt:P3138 # German Online-Filmdatenbank (Germany)
+    wdt:P3203 # Ciné-Ressources (France)
+    wdt:P3367 # German Early Cinema Database GECD(Germany)
+    wdt:P3673 # film-documentaire.fr (France)
+    wdt:P3844 # Deutsche Synchronkartei (Germany)
+    wdt:P3933 # cinema.de (Germany)
+    wdt:P3961 # unifrance.org (France)
+    wdt:P4438 # BFI Film & TV Database (UK)
+    wdt:P4515 # prisma.de (Germany)
+    wdt:P5128 # The Spanish Film Catalogue (Spain)
+    wdt:P5786 # Moviepilot.de (Germany)
+    wdt:P6474 # swissfilms.ch (Switzerland)
+    wdt:P8531 # filmstarts.de (Germany)
+    wdt:P12059 # Encyclociné.com (France)
+    wdt:P12684 # Deutsche Film und Medienbewertung (FBW)" (Germany)
+    wdt:P13910 # Filmfriend (Germany)
+    wdt:P4282 # LUMIERE database of the European Audiovisual Observatory
+    wdt:P4665 # Cinemagia.ro (Romania)
+    wdt:P5791 # Cineuropa
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

@@ -1,0 +1,8 @@
+SELECT ?p31 ?p31_updated (COUNT(DISTINCT ?record) AS ?record_count) WHERE {
+  ?record wdt:P345 ?value. # ?record has property
+  FILTER(STRSTARTS(?value, "ev")) # value starts with
+  ?record wdt:P31 ?p31. # ?content's instance of
+  ?p31 schema:dateModified ?p31_updated. # instance's date modified
+}
+GROUP BY ?p31 ?p31_updated
+ORDER BY DESC(?record_count)

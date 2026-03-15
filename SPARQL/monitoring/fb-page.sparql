@@ -1,3 +1,0 @@
-SELECT ?item ?value WHERE {
-  ?item wdt:P4003 ?value;
-}

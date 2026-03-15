@@ -1,0 +1,10 @@
+SELECT ?prop ?content ?content_updated ?credit ?credit_updated WHERE {
+  VALUES ?prop { 
+    wdt:P725 # voice actor
+    wdt:P10606 # notable role
+    wdt:P11108 # recorded participant
+  }
+  ?content ?prop ?credit;
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+}

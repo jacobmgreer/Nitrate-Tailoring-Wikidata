@@ -1,0 +1,7 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P345 # IMDb
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

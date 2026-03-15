@@ -1,0 +1,13 @@
+SELECT ?prop ?p31 ?p31_updated (COUNT(DISTINCT ?credit) AS ?credit_count) (COUNT(DISTINCT ?content) AS ?content_count) WHERE {
+  VALUES ?prop { 
+    wdt:P161 # cast member
+    wdt:P725 # voice actor
+    wdt:P10606 # notable role
+    wdt:P11108 # recorded participant
+  }
+  ?content ?prop ?credit.
+  ?credit wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated
+}
+GROUP BY ?prop ?p31 ?p31_updated
+ORDER BY ?prop DESC(?credit_count)

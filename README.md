@@ -52,7 +52,16 @@ Releases follow a `YYYY-MM-DD` tag pattern. All query outputs for a given night 
 
 ### Media-Related Alternate IDs
 
-**Note:** other wikidata properties https://www.wikidata.org/wiki/Wikidata:WikiProject_Movies/Properties/identifiers
+**Note:** other wikidata properties 
+https://www.wikidata.org/wiki/Wikidata:WikiProject_Movies/Properties/identifiers
+https://www.wikidata.org/wiki/Template:Movie_person_properties
+https://www.wikidata.org/wiki/Template:Movie_properties
+https://www.wikidata.org/wiki/Template:Movie_industry_properties
+https://www.wikidata.org/wiki/Template:Television_properties
+https://en.wikipedia.org/wiki/Category:WikiProject_Film_templates
+
+https://en.wikipedia.org/wiki/Category:WikiProject_Pornography
+https://en.wikipedia.org/wiki/Template:Adult_entertainment_awards
 
 | Dataset | Property | Note | 
 | --- | --- | --- |

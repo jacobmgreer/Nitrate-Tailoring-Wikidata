@@ -1,0 +1,7 @@
+SELECT ?p31 ?p31_updated (COUNT(DISTINCT ?credit) AS ?credit_count) (COUNT(DISTINCT ?content) AS ?content_count) WHERE {
+  ?content wdt:P1877 ?credit.
+  ?content wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated.
+}
+GROUP BY ?p31 ?p31_updated
+ORDER BY DESC(?content_count)

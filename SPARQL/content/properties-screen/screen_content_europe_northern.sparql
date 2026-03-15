@@ -1,0 +1,20 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P1316 # Swedish Media Database (Sweden)
+    wdt:P1439 # Norsk filmografi (Norway)
+    wdt:P1804 # Danish National Filmography (Denmark)
+    wdt:P2334 # Swedish Film Database (SFDb) (Sweden)
+    wdt:P2346 # Elonet (Finland)
+    wdt:P2518 # scope.dk (Denmark)
+    wdt:P3340 # kvikmyndir.is (Iceland)
+    wdt:P3785 # danskefilm.dk (Denmark)
+    wdt:P4209 # danskfilmogtv.dk (Denmark)
+    wdt:P7975 # Filmfront (Norway)
+    wdt:P12222 # Filmweb (Norway)
+    wdt:P12814 # filmas.lv (Latvia)
+    wdt:P13244 # Icelandic Film Database (Iceland)
+    wdt:P13369 # DRTV (Denmark)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

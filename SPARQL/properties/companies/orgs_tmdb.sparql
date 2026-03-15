@@ -1,3 +1,0 @@
-SELECT ?item ?value ?date WHERE { 
-    ?item wdt:P11806 ?value;
-    schema:dateModified ?date. }

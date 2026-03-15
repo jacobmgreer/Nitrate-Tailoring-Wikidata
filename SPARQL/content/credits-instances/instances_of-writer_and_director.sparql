@@ -1,0 +1,12 @@
+SELECT ?prop ?p31 ?p31_updated (COUNT(DISTINCT ?credit) AS ?credit_count) (COUNT(DISTINCT ?content) AS ?content_count) WHERE {
+  VALUES ?prop { 
+    wdt:P57 # director
+    wdt:P58 # screenwriter
+    wdt:P1877 # after a work by
+  }
+  ?content ?prop ?credit.
+  ?content wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated
+}
+GROUP BY ?prop ?p31 ?p31_updated
+ORDER BY ?prop DESC(?credit_count)

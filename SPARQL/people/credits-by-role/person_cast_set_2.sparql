@@ -1,0 +1,7 @@
+SELECT ?prop ?content ?content_updated ?credit ?credit_updated WHERE {
+  VALUES ?prop { wdt:P161 }
+  ?content ?prop ?credit;
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+  FILTER (STR(?content) >= "http://www.wikidata.org/entity/Q3000000")
+}

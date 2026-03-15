@@ -1,0 +1,10 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P9701 # African Film Database
+    wdt:P4513 # Africultures (France)
+    wdt:P3143 # elFilm (Egypt)
+    wdt:P3135 # elCinema (Egypt)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

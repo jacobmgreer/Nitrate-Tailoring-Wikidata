@@ -1,3 +1,0 @@
-SELECT ?item ?value WHERE {
-  ?item wdt:P2013 ?value;
-}

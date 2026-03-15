@@ -1,0 +1,9 @@
+SELECT ?prop ?content ?content_updated ?credit ?credit_updated WHERE {
+  VALUES ?prop { 
+    wdt:P750 # distributed by
+    wdt:P272 # production company
+  }
+  ?content ?prop ?credit;
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+}

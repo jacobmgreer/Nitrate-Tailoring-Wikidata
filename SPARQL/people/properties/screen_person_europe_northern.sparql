@@ -1,0 +1,15 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P2168 ## Swedish Film Database (SFDb) (Sweden)
+    wdt:P2387 ## Elonet (Finland)
+    wdt:P2519 ## Skope.dk (Denmark)
+    wdt:P2626 ## Danish National Filmography (Denmark)
+    wdt:P3341 ## kvikmyndir.is (Iceland)
+    wdt:P3786 ## danskefilm.dk (Denmark)
+    wdt:P4112 ## danskfilmogtv.dk (Denmark)
+    wdt:P8037 ## filmfront (Norway)
+    wdt:P12815 ## filmas.lv (Latvia)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

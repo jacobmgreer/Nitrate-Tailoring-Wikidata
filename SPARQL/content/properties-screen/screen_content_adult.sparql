@@ -1,0 +1,11 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P10549 # Evil Angel 
+    wdt:P5083 # Adult Film Database
+    wdt:P5098 # IAFD
+    wdt:P9032 # AVN
+    # wdt:P8809 # (combined, some prefixes)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

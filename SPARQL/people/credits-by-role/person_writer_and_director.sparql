@@ -1,0 +1,10 @@
+SELECT ?prop ?content ?content_updated ?credit ?credit_updated WHERE {
+  VALUES ?prop { 
+    wdt:P57 # director
+    wdt:P58 # screenwriter
+    wdt:P1877 # after a work by
+  }
+  ?content ?prop ?credit;
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+}

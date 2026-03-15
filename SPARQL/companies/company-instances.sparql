@@ -1,0 +1,11 @@
+SELECT ?prop ?p31 ?p31_updated (COUNT(DISTINCT ?credit) AS ?credit_count) (COUNT(DISTINCT ?content) AS ?content_count) WHERE {
+  VALUES ?prop { 
+    wdt:P750 # distributed by
+    wdt:P272 # production company
+  }
+  ?content ?prop ?credit.
+  ?credit wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated
+}
+GROUP BY ?prop ?p31 ?p31_updated
+ORDER BY ?prop DESC(?credit_count)

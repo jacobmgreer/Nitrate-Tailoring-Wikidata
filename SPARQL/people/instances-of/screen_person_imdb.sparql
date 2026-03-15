@@ -1,0 +1,11 @@
+SELECT ?prop ?p31 ?p31_updated (COUNT(DISTINCT ?record) AS ?record_count) WHERE {
+  VALUES ?prop { 
+    wdt:P345 # imdb
+  }
+  ?record ?prop ?value.
+  FILTER(STRSTARTS(?value, "nm"))
+  ?record wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated
+}
+GROUP BY ?prop ?p31 ?p31_updated
+ORDER BY ?prop DESC(?record_count)

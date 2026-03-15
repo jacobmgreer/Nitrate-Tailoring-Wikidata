@@ -1,0 +1,35 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P2400 # Japanese Movie Database (JMDb) (Japan)
+    wdt:P2508 # KINENOTE (Japan)
+    wdt:P2509 # Movie Walker Press (Japan)
+    wdt:P2883 # HKMDB (Hong Kong Movie Database) (China)
+    wdt:P3128 # CiNetMag (Iran)
+    wdt:P3139 # Soureh Cinema (Iran)
+    wdt:P3141 # EDb (Israel)
+    # wdt:P3145 # Sratim (movie or person, uses prefixes) (Israel)
+    # wdt:P3445 # Cinema of Israel (combined content, no prefix) (Israel)
+    wdt:P3704 # Korean Movie Database KMDb
+    # wdt:P3821 # Bangla Movie Database (Bangladesh) (combined, uses prefixes)
+    # wdt:P3906 # Ishim (Israel) (combined, no prefix)
+    wdt:P4277 # Daum (South Korea)
+    wdt:P4529 # Douban (China)
+    wdt:P5108 # HanCinema (South Korea)
+    wdt:P5218 # Armenian Association of Film Critics and Cinema Journalists (Armenia)
+    wdt:P6133 # siamzone.com (Thailand)
+    wdt:P6256 # SinemaTürk (Turkey)
+    wdt:P6420 # Georgian National Filmography (Georgia)
+    wdt:P6458 # Mtime (China)
+    wdt:P7222 # Eiga (Japan)
+    wdt:P8673 # Naver (South Korea)
+    wdt:P8918 # Max Movie (South Korea)
+    wdt:P8920 # Movist (South Korea)
+    wdt:P8921 # KOBIS (South Korea)
+    wdt:P10537 # 1905 (China)
+    wdt:P11190 # WMOOV (Hong Kong)
+    wdt:P11283 # Japanese Cinema Database (Japan)
+    wdt:P12320 # Moviebuff 
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

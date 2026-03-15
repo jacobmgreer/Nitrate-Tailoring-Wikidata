@@ -1,0 +1,11 @@
+SELECT ?prop ?group ?group_updated ?associated ?associated_updated WHERE {
+  VALUES ?prop { 
+    wdt:P57 # director
+    wdt:P58 # screenwriter
+    wdt:P1877 # after a work by
+  }
+  ?content ?prop ?group.
+  ?group wdt:P527 ?associated;
+    schema:dateModified ?group_updated.
+  ?associated schema:dateModified ?associated_updated.
+}

@@ -1,0 +1,18 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P2897 # eldoblaje.com Spanish dubbings (Spain)
+    wdt:P3129 # cine.gr (Greece)
+    wdt:P4780 # MyMovies.it (Italy)
+    wdt:P4783 # MoviePlayer.it (Italy)
+    wdt:P4786 # cinematografo.it (Italy)
+    wdt:P5253 # FilmTV.it (Italy)
+    wdt:P7132 # ComingSoon.it (Italy)
+    wdt:P10454 # Portuguese daily Público (Portugal)
+    wdt:P11346 # Cinematografo.it (Italy)
+    wdt:P12139 # cinema.ilsole24ore.com (Italy)
+    wdt:P12347 # NientePopCorn.it movie (Italy)
+    wdt:P12348 # NientePopCorn.it series (Italy)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

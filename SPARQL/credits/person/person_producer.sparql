@@ -1,5 +1,0 @@
-SELECT ?content ?content_updated ?person ?person_updated WHERE {
-  ?content wdt:P162 ?person;
-    schema:dateModified ?content_updated.
-  ?person schema:dateModified ?person_updated.
-}

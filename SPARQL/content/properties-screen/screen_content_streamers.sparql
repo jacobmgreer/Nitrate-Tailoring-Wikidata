@@ -1,0 +1,11 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P12492 # Trakt.tv
+    wdt:P11460 # Plex
+    wdt:P7299 # MUBI
+    wdt:P9586 # Apple TV
+    wdt:P1874 # Netflix
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

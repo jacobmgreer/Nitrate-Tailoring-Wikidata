@@ -1,2 +1,0 @@
-SELECT ?item ?value WHERE { 
-    ?item wdt:P1320 ?value; }
