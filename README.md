@@ -4,51 +4,9 @@
 
 **Role in who-db:** Nightly Wikidata catalog builder. Executes a curated library of SPARQL queries against the Wikidata Query Service and packages the results as Parquet files in a GitHub Release — defining which QIDs are relevant to the `who-db` ecosystem.
 
-## What this repo does
-
-`Nitrate-Tailoring-Wikidata` maintains a directory of `.sparql` files organized by domain. Each night, GitHub Actions executes all queries and uploads the resulting Parquet files to a versioned GitHub Release. These releases are the **catalog manifest** for `db-wikidata`: every QID that appears in any release file is a QID that `db-wikidata` should maintain a local property cache for.
-
-This repo **does not store Wikidata property data** — it only stores the catalog of relevant QIDs + their last-updated timestamps.
-
 ## GitHub Release naming
 
 Releases follow a `YYYY-MM-DD` tag pattern. All query outputs for a given night are uploaded to the same release.
-
-## Tech stack
-
-- **Language:** R (`httr`, `jsonlite`, `arrow`, `dplyr`)
-- **Orchestration:** GitHub Actions (nightly cron)
-- **Query protocol:** SPARQL 1.1 over HTTPS, JSON response format
-- **Storage:** Apache Parquet, published as GitHub Release assets
-
-<!-- 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-|  |  |  |
--->
-
-## SPARQL queries
-
-### Credit-Related Properties
-
-**Note:** some credits might be related to other unexpected forms of performance/entertainment (may include live/stage).
-
-| Type | Property | Note | 
-| --- | --- | --- |
-| after a work by | P1877 | might not be film |
-| cast member | P161 | |
-| cinematographer | P344 | 'director of photography' |
-| composer | P86 |  |
-| costume designer | P2515 |  |
-| executive producer | P1431 |  |
-| film editor | P1040 |  |
-| producer | P162 |  |
-| production designer | P2554 |  |
-| recorded-participant | P11108  |  |
-| screenwriter | P58 |  |
-| sound designer | P5028 |  |
-| voice actor | 725 |  |
-| translator | P655 | monitored specifically from film/tv content |
 
 ### Media-Related Alternate IDs
 
@@ -63,86 +21,52 @@ https://en.wikipedia.org/wiki/Category:WikiProject_Film_templates
 https://en.wikipedia.org/wiki/Category:WikiProject_Pornography
 https://en.wikipedia.org/wiki/Template:Adult_entertainment_awards
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| Czech-Slovak film database (čsfd) film ID | P2529 | |
-| EIDR content ID | P2704 | |
-| CITWF title ID | P9146 | also known as FCOC |
-| Film Affinity film ID | P480 | |
-| IMDb | P345 | broken out by 'tt-' prefix |
-| Letterboxd film ID | P6127 | |
-| Moviebuff ID | P12320  |  |
-| Moviemeter film ID | P1970 |  |
-| Netflix ID | P1874 |  |
-| German Online-Filmdatenban OFDb film id | P3138 |  |
-| PORT film ID | P905 |  |
-| Swedish Film Database ID | P2334 |  |
-| TCM Movie Database film ID | P2631 |  |
-| The Numbers movie ID | P3808 |  |
-| TMDB movie ID | P4947 |  |
-| TMDB TV series ID | P4983 |  |
 
-### Music-Related Alternate IDs
+# Nitrate Tailoring Wikidata
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| Discogs master ID | P1954 |  |
-| Spotify album ID | P2205 |  |
+This repository defines a **highly reproducible SPARQL query pipeline** for querying, processing, and managing domain-specific Wikidata records. It uses **SPARQL** for querying entities, **R-based scripting** for transformations, and **DuckDB** for lightweight, embedded analytics. Outputs are versioned and released via **GitHub Actions** workflows.
 
-### Media-Related Companies
+---
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| Discogs label ID | P1955 |  |
-| EIDR party ID | P12142 |  |
-| IMDb company ID | P345 | broken out by 'co-' prefix |
-| TMDB company ID | P11806 |  |
+## Intent and Invariants
 
-### Media-Related Profession Data
+### **What This Code Does**
+- Executes domain-specific SPARQL queries against the Wikidata public endpoint.
+- Extracts relevant `results.bindings` and processes them with type-safe transformations into DuckDB.
+- Produces compact, queryable outputs in **Apache Parquet** format.
+  
+---
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| IMDb person ID | P345 | broken out by 'nm-' prefix |
-| TCM Movie Database person ID | P3056 |  |
-| TMDB person ID | P4985 |  
+## Non-Obvious Patterns
 
-### Music-Related Profession Data
+### **Why the Pipeline Avoids In-Memory Joins**
+R provides strong data manipulation tools, but this repository delegates joins and filtering to **DuckDB** for the following reasons:
+1. **Columnar Efficiency**: Large SPARQL datasets can be processed efficiently using DuckDB's columnar engine.
+2. **SQL as Documentation**: The SQL macros in DuckDB clarify query logic better than multiline R code.
+3. **Scalability**: DuckDB handles large workloads in constant memory, which is critical for automation tasks.
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| Apple Music artist ID (U.S. version) | P2850 |  |
-| ACE Repertory publisher ID | P10550 |  |
-| Bandcamp profile ID | P3283 |  |
-| DAHR artist ID | P4457 |  |
-| Discogs artist ID | P1953 |  |
-| Discogs label ID | P1955 |  |
-| Last.fm ID | P3192 |  |
-| Mixcloud ID | P9509 |  |
-| MusicBrainz artist ID | P434 |  |
-| SoundCloud ID | P3040 |  |
-| Spotify artist ID | P1902 |  |
+---
 
-### Film Awards and Media Events
+### **Why SPARQL Results Are Saved as JSON Before Processing**
+1. **Deterministic Pipelining**:
+   - The `json/temp_<prefix>.json` files provide a clean checkpoint that ensures reproducibility if SPARQL queries fail mid-run.
+2. **Flexible Error Handling**:
+   - Parsing failures (e.g., format changes in `results.bindings`) are isolated to the SPARQL step.
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| FilmFreeway ID | P6762 |  |
-| IMDb event ID | P345 | broken out by 'ev-' prefix |
-| IMDb event instance ID | P345 | broken out by 'ev-' and a year '/YYYY' prefix |
+---
 
-### Monitoring Other Alt-Identifiers
+## Execution Model
 
-| Dataset | Property | Note | 
-| --- | --- | --- |
-| Facebook page ID | P4003 |  |
-| Facebook username | P2013 |  |
-| Instagram username | P2003 |  |
-| Internet Archive ID | P724 |  |
-| Myspace ID | P3265 |  |
-| OpenCorporates ID | P1320 |  |
-| TikTok username | P7085 |  |
-| X (Twitter) username | P2002 |  |
-| Vimeo ID | P4015 |  |
-| VK username | P3185 |  |
-| YouTube channel ID | P2397 |  |
-| YouTube handle | P11245 |  |
+1. **SPARQL Queries**:
+   - Queries in `SPARQL/*` are stored as `.sparql` flat files for better organization.
+   - Each file represents an independent pipeline.
+   - Outputs are parsed into JSON objects, saved in `json/`.
+
+2. **DuckDB Transformation**:
+   - JSON outputs are processed directly into DuckDB temporary tables.
+   - Data is cleaned, validated, and exported as Parquet files in `release/`.
+
+3. **GitHub Actions Workflow**:
+   - Defined in [`sparql_matrix_release3.yml`](.github/workflows/sparql_matrix_release3.yml):
+     - Runs nightly, weekly, or ad hoc.
+     - Automatically attaches outputs to GitHub Releases.
