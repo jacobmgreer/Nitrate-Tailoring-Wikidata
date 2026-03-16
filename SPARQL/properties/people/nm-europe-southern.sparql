@@ -1,0 +1,13 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P4779 ## MYmovies.it (Italy)
+    wdt:P4781 ## MYmovies.it (Italy) directors
+    wdt:P4782 ## movieplayer.it (Italy)
+    wdt:P5254 ## FilmTv.it (Italy)
+    wdt:P11434 ## ComingSoon.it (Italy)
+    wdt:P12140 ## Cinema e Film (Italy)
+    wdt:P12349 ## NientePopCorn.it (Italy)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

@@ -1,0 +1,15 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P12196 # TheTVDB.com
+    wdt:P12683 # FilmVandaag (Netherlands)
+    wdt:P12879 # Filmová databáze (FDb) (Czech Republic)
+    wdt:P13650 # Deaf Movie Database (DMDb)
+    wdt:P11948 # National Film and Sound Archive (Australia)
+    wdt:P11598 # Rate Your Music
+    wdt:P11502 # The Numbers
+    wdt:P10688 # Personality Database
+    wdt:P10344 # Rakuten Viki
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

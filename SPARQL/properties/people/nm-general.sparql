@@ -1,0 +1,37 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    # wdt:P1258 # RottenTomatoes (more than people)
+    # wdt:P1712 # MetaCritic (more than people, but a prefix)
+    wdt:P1982 # animenewsnetwork.com
+    # wdt:P2638 # TV.com (more than people, but a prefix)
+    wdt:P2688 # former Box Office Mojo 
+    wdt:P3056 # TCM
+    wdt:P3136 # elCinema (Egypt)
+    wdt:P3144 # elFilm (Egypt)
+    wdt:P3845 # TVGuide.com
+    wdt:P3862 # MyDramaList
+    wdt:P4514 # AfriCultures (France)
+    wdt:P4681 # Eldoblaje.com Spanish dubbing actor
+    wdt:P4682 # Eldoblaje.com Spanish dubbed film actors
+    wdt:P4727 # Deutsche Synchronkartei dubbing
+    wdt:P5007 # Behind the Voice Actors
+    wdt:P5340 # AFI Institute
+    wdt:P6150 # Academy Awards db
+    wdt:P6119 # Letterboxd
+    wdt:P7119 # Academy Collection
+    wdt:P7553 # Sinemalar (Turkey)
+    wdt:P7602 # RatingGraph actor
+    wdt:P7654 # RatingGraph actress
+    wdt:P7803 # decline21 (Spain)
+    wdt:P7920 # TheTVDB
+    # wdt:P8013 # Trakt.tv (more than people, has prefix)
+    wdt:P8305 # LongTake (Italy)
+    wdt:P8314 # Noovie
+    wdt:P9305 # MaxMovie
+    wdt:P11449 # TV Maze
+    wdt:P12153 # FilmAffinity (includes companies)
+    wdt:P12880 # Filmová databáze (Czech Republic)  
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

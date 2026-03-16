@@ -1,0 +1,35 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P2435 ## PORT-network (Hungary)
+    wdt:P2604 ## Kinopoisk.ru (Russia)
+    wdt:P2605 ## ČSFD (Czech Republic and Slovakia)
+    wdt:P3114 ## ISzDb (a Hungarian dub database)
+    wdt:P4666 ## Cinemagia.ro (Romania)
+    wdt:P5312 ## Kino-teatr.ua (Ukraine)
+    wdt:P5770 ## Animator.ru (Russia)
+    wdt:P7483 ## CinemaRX.ro (Romania)
+    wdt:P7533 ## All about Romanian Cinema (Romania)
+    wdt:P7586 ## Cinepub (Romania)
+    wdt:P7645 ## RomaniaActors (Romania)
+    wdt:P7808 ## Kino-teatr.ru (Russia)
+    wdt:P7874 ## Estonia Film Db (Estonia)
+    wdt:P8879 ## kinorium.com (Russia and Ukraine)
+    wdt:P9102 ## cinefan.ro (Romania)
+    wdt:P9229 ## DzygaMDB (Ukraine)
+    wdt:P10163 ## Kinomania.ru (Russia)
+    wdt:P10166 ## kinobaza.com.ua (Ukraine)
+    wdt:P10194 ## oKino.ua (Ukraine)
+    wdt:P10268 ## KinoFilms (Ukraine)
+    wdt:P10302 ## Film.Ru (Russia)
+    wdt:P10812 ## rusakters.ru (Russia)
+    wdt:P10820 ## KinoMail (Russia)
+    wdt:P10908 ## Kino-kolo (Ukraine)
+    wdt:P11454 ## Afisha (Russia)
+    wdt:P11607 ## Mosfilm (Russia)
+    wdt:P11683 ## lvi.ru (Russia)
+    wdt:P11745 ## Kinoglaz (France and Russia)
+    wdt:P12480 ## Hong Kong Cinema website (Russia)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

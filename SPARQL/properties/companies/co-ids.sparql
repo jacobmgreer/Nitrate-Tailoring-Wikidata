@@ -1,0 +1,31 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P10550 # ACE repository publisher id
+    wdt:P1955 # discogs label id
+    wdt:P12142 # EIDR party id
+    wdt:P11806 # tmdb company id
+    wdt:P2335 # SFDb Swedish Film Database company id (Sweden)
+    wdt:P2468 # theatricalia.com movie theater id
+    wdt:P2531 # BoxOfficeMojo studio id
+    wdt:P3115 # ISzDb (a Hungarian dub database) company id
+    wdt:P3375 # German Early Cinema Database company id
+    wdt:P3458 # CNC authorization number (France)
+    # wdt:P3703 # JMDb person or company ID (combination)
+    wdt:P4910 # AlloCiné company id (France)
+    wdt:P4981 # Kinoliste.com movie theater id (Germany)
+    wdt:P5576 # Israeli movie database EDb company id (Israel)
+    wdt:P6644 # Fandango movie theater id
+    wdt:P7610 # Taiwan Cinema company id (Taiwan)
+    wdt:P8414 # AlloCiné movie theater id (France)
+    wdt:P9462 # Bioguiden movie theater id (Sweden)
+    wdt:P9551 # Bio.se movie theater id (Sweden)
+    wdt:P9560 # DCinemaToday company id
+    wdt:P10593 # Kinowiki movie theater id (Germany)
+    wdt:P12816 # filmas.lv studio id (Latvia)
+    wdt:P12840 # Cineuropa distributor company id
+    wdt:P12841 # Cineuropa production company id
+    wdt:P13128 # tmdb network id
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

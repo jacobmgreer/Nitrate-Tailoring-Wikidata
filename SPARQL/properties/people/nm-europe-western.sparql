@@ -1,0 +1,26 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P4283 ## LUMIERE database of the European Audiovisual Observatory
+    wdt:P5534 ## Open Media Database
+    wdt:P6083 ## Cineuropa
+    wdt:P1266 ## AlloCiné
+    wdt:P3204 ## Ciné-Ressources
+    wdt:P3366 ## German Early Cinema Database
+    wdt:P3933 ## cinema.de
+    wdt:P3980 ## unifrance.org
+    wdt:P4326 ## BFI
+    wdt:P4332 ## Deutsche Synchronkartei 
+    wdt:P6603 ## film-documentaire.fr
+    wdt:P8977 ## Complete Index for World Film
+    wdt:P9404 ## Online-Filmdatenbank 
+    wdt:P9463 ## MovieMeter
+    wdt:P9662 ## Lexicon of International Film
+    wdt:P10060 ## e-Talenta
+    wdt:P11646 ## Deutsche Synchronkartei
+    wdt:P12152 ## MoviePilot
+    wdt:P13370 ## Calindex
+    wdt:P13730 ## Swiss Films database
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

@@ -1,0 +1,18 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P3869 ## Internet Adult Film Database (female)
+    wdt:P4505 ## Internet Adult Film Database (male)
+    wdt:P3351 ## Adult Film Database (actor)
+    wdt:P14030 ## Adult Film Database (director)
+    wdt:P8767 ## European Girls Adult
+    wdt:P8721 ## Adult Web Movie db
+    wdt:P12776 ## IAFD
+    wdt:P5246 ## Pornhub
+    wdt:P8720 ## xhamster
+    wdt:P9187 ## eurobabeindex.com
+    wdt:P9233 ## xxxbios female
+    wdt:P9174 ## xxxbios transgender
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

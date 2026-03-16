@@ -1,0 +1,16 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P480 # FilmAffinity
+    wdt:P4086 # MyAnimeList
+    wdt:P14051 # MyWaifuList Anime
+    wdt:P1985 # Anime News Network
+    wdt:P4933 # The Big Cartoon DataBase
+    wdt:P3868 # MyDramaList
+    wdt:P3808 # TheNumbers
+    wdt:P3787 # danskefilm.dk Silent Films (Denmark)
+    wdt:P3593 # AFI Catalog
+    wdt:P3302 # Open Movie Database (Germany)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

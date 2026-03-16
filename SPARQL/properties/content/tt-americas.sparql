@@ -1,0 +1,23 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P2631 # TCM
+    # wdt:P2638 # TV.com (combined, has prefix)
+    wdt:P4276 # Cinémathèque québécoise (Canada)
+    wdt:P3851 # cinenacional.com (Argentina)
+    wdt:P4606 # National Film Board of Canada (Canada)
+    wdt:P5338 # Silentera.com
+    wdt:P6466 # Hulu
+    wdt:P7118 # AMPAS
+    wdt:P7334 # Fandango at Home 
+    wdt:P7595 # Disney+
+    wdt:P7760 # Tubi
+    wdt:P8958 # Brazilian Advisory Rating System (Brazil)
+    wdt:P9022 # Mediafilm (Canada)
+    wdt:P10098 # OuVoir.Ca (Canada)
+    wdt:P12264 # MovieFone
+    wdt:P12279 # Criterion Colletion Spine
+    wdt:P12423 # Sundance Institute Digital Archive
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

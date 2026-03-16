@@ -1,0 +1,14 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P4579 # Tidal
+    wdt:P5655 # Apple Music
+    wdt:P8776 # IMVDb
+    wdt:P10330 # Bugs! (South Korea)
+    wdt:P10523 # Naver Vibe (South Korea)
+    wdt:P10548 # Melon (South Korea)
+    wdt:P11332 # MTV (Germany)
+    wdt:P13320 # RateYourMusic
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

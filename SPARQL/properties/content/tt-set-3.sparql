@@ -1,0 +1,17 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P6932 # RogerEbert.com
+    wdt:P6127 # Letterboxd
+    wdt:P5384 # Behind The Voice Actors
+    wdt:P5693 # Fandango
+    wdt:P5865 # IGN
+    wdt:P5990 # MoviesAnywhere
+    wdt:P4632 # Bechdel Test Movie List
+    wdt:P1712 # Metacritic
+    wdt:P1562 # AllMovie
+    wdt:P1258 # RottenTomatoes
+    wdt:P1237 # Box Office Mojo 
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

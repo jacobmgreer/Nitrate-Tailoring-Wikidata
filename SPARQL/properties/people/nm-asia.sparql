@@ -1,0 +1,33 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P1649 ## KMDb (Korea)
+    wdt:P3045 ## HanCinema (Korea)
+    wdt:P3140 ## SourehCinema (Iran)
+    wdt:P3142 ## EDb (Israel)
+    wdt:P3145 ## Sratim (Israel)
+    wdt:P3146 ## CiNetMag (Iran)
+    wdt:P3305 ## KINENOTE (Japan)
+    wdt:P3346 ## HKMDB (Hong Kong)
+    wdt:P3445 ## Cinema of Israel (Israel)
+    wdt:P3703 ## JMDb (Japan)
+    wdt:P3821 ## Bangla Movie Db (Bangladesh)
+    wdt:P3910 ## Bollywood Hungama (India)
+    wdt:P5284 ## Douban (China)
+    wdt:P6255 ## SinemaTürk (Turkey)
+    wdt:P6464 ## Mtime (China)
+    wdt:P6501 ## Georgian Film Db (Georgia)
+    wdt:P7214 ## AllCinema (Japan)
+    wdt:P7215 ## eiga (Japan)
+    wdt:P7653 ## MovieGe (Georgia)
+    wdt:P7745 ## Movie Walker Press (Japan)
+    wdt:P7923 ## Bollywood Hungama (India)
+    wdt:P8969 ## Cine21 (South Korea)
+    wdt:P9999 ## Center for Turkish Cinema Studies (Turkey)
+    wdt:P10621 ## 1905.com (China)
+    wdt:P10753 ## Israeli Directors Guild (Israel)
+    wdt:P11237 ## KOBIS (South Korea)
+    wdt:P12688 ## Jerusalem Film Cinematheque (Israel)
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

@@ -1,0 +1,8 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P345 # imdb
+  }
+  ?item ?prop ?value.
+  FILTER(STRSTARTS(?value, "ev"))
+  ?item schema:dateModified ?date.
+}

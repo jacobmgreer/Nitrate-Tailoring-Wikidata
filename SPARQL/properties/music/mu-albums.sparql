@@ -1,0 +1,8 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P2205 # Spotify album id
+    wdt:P1954 # Discogs master id
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

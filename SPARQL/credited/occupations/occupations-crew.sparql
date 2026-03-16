@@ -1,0 +1,20 @@
+SELECT ?prop ?p106 ?p106_updated (COUNT(DISTINCT ?credit) AS ?credit_count) WHERE {
+  VALUES ?prop { 
+    wdt:P1809 # choreographer
+    wdt:P86 # composer
+    wdt:P2515 # costume designer
+    wdt:P12617 # creative director
+    wdt:P3092 # film crew
+    wdt:P1040 # film editor
+    wdt:P2554 # production designer
+    wdt:P5028 # sound designer
+    wdt:P344 # director of photography / cinematographer
+    wdt:P1431 # executive producer
+    wdt:P162 # producer
+  }
+  ?content ?prop ?credit.
+  ?credit wdt:P106 ?p106.
+  ?p106 schema:dateModified ?p106_updated
+}
+GROUP BY ?prop ?p106 ?p106_updated
+ORDER BY ?prop DESC(?credit_count)
