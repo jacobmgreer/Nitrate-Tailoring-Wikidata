@@ -60,10 +60,10 @@ dbExecute(con, "
 ## PROPERTIES MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS properties (
-      source TEXT,
-      item TEXT,
-      prop TEXT,
-      value TEXT,
+      source VARCHAR,
+      item VARCHAR,
+      prop VARCHAR,
+      value VARCHAR,
       updated DATE
     );
   CREATE MACRO properties(path, source) AS TABLE
@@ -71,7 +71,7 @@ dbExecute(con, "
       source AS source,
       parse_filename(item.value) AS item,
       parse_filename(prop.value) AS prop,
-      value.value AS value,
+      CAST(value.value AS VARCHAR) AS value,
       CAST(date.value AS DATE) AS updated
     FROM read_json_auto(path, maximum_object_size=1000000000)
     ORDER BY updated DESC;
@@ -80,8 +80,8 @@ dbExecute(con, "
 ## INSTANCES MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS instances (
-      source TEXT,
-      p31 TEXT,
+      source VARCHAR,
+      p31 VARCHAR,
       p31_updated DATE,
       n_records INTEGER
     );
@@ -98,9 +98,9 @@ dbExecute(con, "
 ## OCCUPATIONS MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS occupations (
-      source TEXT,
-      prop TEXT,
-      p106 TEXT,
+      source VARCHAR,
+      prop VARCHAR,
+      p106 VARCHAR,
       p106_updated DATE,
       n_credit INTEGER
     );
@@ -117,12 +117,12 @@ dbExecute(con, "
 ## CREDIT-MEMBERS MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS members (
-      source TEXT,
-      content TEXT,
-      prop TEXT,
-      grouped TEXT,
+      source VARCHAR,
+      content VARCHAR,
+      prop VARCHAR,
+      grouped VARCHAR,
       grouped_updated DATE,
-      member TEXT,
+      member VARCHAR,
       member_updated DATE
     );
   CREATE MACRO members(path, source) AS TABLE
@@ -140,11 +140,11 @@ dbExecute(con, "
 ## CREDITS-BY-ROLE MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS credits (
-      source TEXT,
-      prop TEXT,
-      content TEXT,
+      source VARCHAR,
+      prop VARCHAR,
+      content VARCHAR,
       content_updated DATE,
-      credit TEXT,
+      credit VARCHAR,
       credit_updated DATE
     );
   CREATE MACRO credits(path, source) AS TABLE
