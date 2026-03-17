@@ -1,0 +1,104 @@
+name: SPARQL Matrix Release
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-release
+  cancel-in-progress: true
+
+jobs:
+  generate-parquet:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        script:
+          - awards
+          - credits_by_role
+          - credits_membered
+          - credits_occupations
+          - instances
+          - properties_companies
+          - properties_content
+          - properties_events
+          - properties_large
+          - properties_monitoring
+          - properties_music
+          - properties_people
+          - records_by_instance
+          - special
+    env:
+      R_VERSION: "4.1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare R library dir
+        run: echo "R_LIBS_USER=${RUNNER_TEMP}/Rlibs" >> $GITHUB_ENV
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ env.R_VERSION }}
+          use-public-rspm: true
+
+      - name: Cache R libraries
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.temp }}/Rlibs
+          key: ${{ runner.os }}-r-${{ env.R_VERSION }}-${{ hashFiles('renv.lock') }}-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: |
+            ${{ runner.os }}-r-${{ env.R_VERSION }}-
+
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          pak-version: "stable"
+          cache: true
+          extra-packages: |
+            any::stringr
+            any::readr
+            any::httr
+            any::duckdb
+            any::jsonlite
+
+      - name: Run Parquet Script
+        run: Rscript R/${{ matrix.script }}.R
+        continue-on-error: true
+
+      - name: Upload JSON Artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ matrix.script }}-json
+          path: json/*
+
+      - name: Set weekly release tag
+        run: |
+          TAG=$(date -u +%G-%V)
+          echo "RELEASE_TAG=$TAG" >> "$GITHUB_ENV"
+          echo "RELEASE_NAME=Weekly Release $TAG" >> "$GITHUB_ENV"
+          echo "RELEASE_BODY=Automated release for $TAG" >> "$GITHUB_ENV"
+
+      - name: Create or update weekly release
+        if: ${{ success() }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_NAME }}
+          body: ${{ env.RELEASE_BODY }}
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete workflow runs
+        if: ${{ always() }}
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 14

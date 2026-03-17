@@ -1,0 +1,10 @@
+SELECT DISTINCT ?origin ?shortCode ?date WHERE {
+  {
+    SELECT DISTINCT ?origin WHERE {
+      ?item wdt:P495 ?origin.
+    }
+  }
+  OPTIONAL { ?origin schema:dateModified ?date. }
+  OPTIONAL { ?origin wdt:P297 ?shortCode. }
+}
+ORDER BY DESC(?date)

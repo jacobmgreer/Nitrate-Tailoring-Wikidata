@@ -1,0 +1,13 @@
+SELECT ?content ?prop ?grouped ?grouped_updated ?associated ?associated_updated WHERE {
+  VALUES ?prop { 
+    wdt:P58 # screenwriter
+    wdt:P1877 # after a work by
+  }
+  ?content ?prop ?grouped.
+  ?grouped wdt:P527 ?associated;
+    schema:dateModified ?grouped_updated.
+  ?associated schema:dateModified ?associated_updated.
+
+  BIND(xsd:integer(STRAFTER(STR(?content), "Q")) AS ?qnum)
+  FILTER(?qnum >= 10000000)
+}

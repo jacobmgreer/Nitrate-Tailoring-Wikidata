@@ -1,0 +1,22 @@
+SELECT ?content ?prop ?grouped ?grouped_updated ?associated ?associated_updated WHERE {
+  VALUES ?prop { 
+    wdt:P1809 # choreographer
+    wdt:P86 # composer
+    wdt:P2515 # costume designer
+    wdt:P12617 # creative director
+    wdt:P3092 # film crew
+    wdt:P1040 # film editor
+    wdt:P2554 # production designer
+    wdt:P5028 # sound designer
+    wdt:P344 # director of photography / cinematographer
+    wdt:P1431 # executive producer
+    wdt:P162 # producer
+  }
+  ?content ?prop ?grouped.
+  ?grouped wdt:P527 ?associated;
+    schema:dateModified ?grouped_updated.
+  ?associated schema:dateModified ?associated_updated.
+
+  BIND(xsd:integer(STRAFTER(STR(?content), "Q")) AS ?qnum)
+  FILTER(?qnum >= 10000000)
+}

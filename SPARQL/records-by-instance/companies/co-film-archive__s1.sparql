@@ -1,0 +1,7 @@
+SELECT ?item ?date WHERE {
+  ?item (wdt:P31/(wdt:P279*)) wd:Q726929;
+    schema:dateModified ?date.
+
+  BIND(xsd:integer(STRAFTER(STR(?item), "Q")) AS ?qnum)
+  FILTER(?qnum < 10000000)
+}

@@ -1,0 +1,5 @@
+SELECT ?content ?content_updated ?credit ?credit_updated WHERE {
+  ?content wdt:P344 ?credit; # director of photography / cinematographer
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+}

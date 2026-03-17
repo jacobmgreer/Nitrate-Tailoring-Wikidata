@@ -1,0 +1,9 @@
+SELECT ?p31 ?p31_updated (COUNT(DISTINCT ?record) AS ?record_count) WHERE {
+  ?item wdt:P1411 ?record.
+  ?record wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated.
+
+  FILTER(xsd:integer(STRAFTER(STR(?item), "Q")) < 10000000)
+}
+GROUP BY ?p31 ?p31_updated
+ORDER BY DESC(?record_count)

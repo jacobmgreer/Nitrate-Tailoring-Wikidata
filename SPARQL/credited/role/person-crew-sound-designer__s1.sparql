@@ -1,0 +1,5 @@
+SELECT ?content ?content_updated ?credit ?credit_updated WHERE {
+  ?content wdt:P5028 ?credit; # sound designer
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+}

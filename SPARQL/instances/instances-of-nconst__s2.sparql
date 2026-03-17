@@ -1,0 +1,12 @@
+SELECT ?p31 ?p31_updated (COUNT(DISTINCT ?record) AS ?record_count) WHERE {
+  VALUES ?prop { 
+    wdt:P345 # imdb
+  }
+  ?record ?prop ?value.
+  FILTER(xsd:integer(STRAFTER(STR(?record), "Q")) >= 10000000)
+  FILTER(STRSTARTS(?value, "nm"))
+  ?record wdt:P31 ?p31.
+  ?p31 schema:dateModified ?p31_updated.
+}
+GROUP BY ?p31 ?p31_updated
+ORDER BY DESC(?record_count)

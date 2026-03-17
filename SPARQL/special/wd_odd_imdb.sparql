@@ -1,0 +1,16 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { 
+    wdt:P345 # IMDb
+  }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+  FILTER(!STRSTARTS(STR(?value), "http://www.wikidata.org/.well-known/genid/"))
+  FILTER (
+    !(
+      STRSTARTS(STR(?value), "tt") ||
+      STRSTARTS(STR(?value), "nm") ||
+      STRSTARTS(STR(?value), "ev") ||
+      STRSTARTS(STR(?value), "co")
+     )
+  )
+}

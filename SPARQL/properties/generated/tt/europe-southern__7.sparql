@@ -1,0 +1,5 @@
+SELECT ?item ?prop ?value ?date WHERE {
+  VALUES ?prop { wdt:P2897 wdt:P3129 wdt:P4780 wdt:P4783 wdt:P4786 wdt:P5253 wdt:P7132 wdt:P10454 wdt:P11346 wdt:P12139 wdt:P12347 wdt:P12348 }
+  ?item ?prop ?value;
+        schema:dateModified ?date.
+}

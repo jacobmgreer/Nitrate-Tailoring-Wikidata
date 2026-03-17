@@ -1,0 +1,7 @@
+SELECT ?content ?content_updated ?credit ?credit_updated WHERE {
+  ?content wdt:P272 ?credit; #produced by
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+
+  FILTER(xsd:integer(STRAFTER(STR(?content), "Q")) < 20000000)
+}

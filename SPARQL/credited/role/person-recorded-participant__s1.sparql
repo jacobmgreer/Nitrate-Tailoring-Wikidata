@@ -1,0 +1,5 @@
+SELECT ?content ?content_updated ?credit ?credit_updated WHERE {
+  ?content wdt:P11108 ?credit; # recorded participant
+           schema:dateModified ?content_updated.
+  ?credit schema:dateModified ?credit_updated.
+}
