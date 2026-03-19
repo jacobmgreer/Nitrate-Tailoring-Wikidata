@@ -10,45 +10,52 @@ options(timeout = 10*60)
 dir.create(path = "release", showWarnings = FALSE)
 dir.create(path = "json", showWarnings = FALSE)
 
-# Helper function: encode a SPARQL file into a query URL
+# Helper: encode a SPARQL file into a query URL
 sparql_url <- function(filename) {
   query_lines <- read_lines(filename)
-  query_lines_nocomment <- str_replace(query_lines, "#.*$", "")  # Remove comments
+  query_lines_nocomment <- str_replace(query_lines, "#.*$", "")
   query_text <- paste(query_lines_nocomment[query_lines_nocomment != ""], collapse = " ")
   query <- URLencode(str_squish(query_text))
   paste0("https://query.wikidata.org/sparql?query=", query, "&format=json")
 }
 
-# Function to process a SPARQL file and save only `results.bindings`
+# Robust fetch with retry logic
+robust_fetch <- function(url, retries = 3, delay = 30) {
+  for (i in seq_len(retries)) {
+    resp <- try(GET(url), silent = TRUE)
+    if (inherits(resp, "response") && status_code(resp) == 200) {
+      return(resp)
+    } else {
+      message(sprintf("Attempt %d failed for %s.", i, url))
+      if (i < retries) Sys.sleep(delay)
+    }
+  }
+  stop(sprintf("Failed to fetch SPARQL results after %d attempts for %s.", retries, url))
+}
+
+# Process a SPARQL file and save only `results.bindings`
 process_sparql <- function(file) {
   url <- sparql_url(file)
-  resp <- GET(url)  # Send the SPARQL query
-  
-  if (status_code(resp) != 200) stop(sprintf("Failed to fetch SPARQL results for %s. Status: %d", file, status_code(resp)))
-
-  # Explicitly parse as JSON to handle `application/sparql-results+json`
+  resp <- robust_fetch(url)
   content <- content(resp, as = "parsed", type = "application/json")
-  bindings <- content$results$bindings  # Extract `results.bindings`
+  bindings <- content$results$bindings
 
-  # Save the relevant section of the JSON to a temporary file
   json_path <- paste0("json/", basename(dirname(file)))
   dir.create(json_path, showWarnings = F, recursive = T)
   write_json(
-    x = bindings, 
-    path = paste0(json_path, "/", basename(file), ".json"), 
-    pretty = TRUE, 
+    x = bindings,
+    path = paste0(json_path, "/", basename(file), ".json"),
+    pretty = TRUE,
     auto_unbox = TRUE)
   message(sprintf("Saved bindings from %s", file))
-  
-  # Return the path to the saved JSON file
   return(paste0(json_path, "/", basename(file), ".json"))
 }
 
-# Set up DuckDB connection and extensions
+# --- DuckDB setup unchanged ---
+
 con <- dbConnect(duckdb::duckdb())
 dbExecute(con, "INSTALL json; LOAD json; SET preserve_insertion_order=false;")
 
-# RECORDS MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS records (
       db VARCHAR,
@@ -64,7 +71,6 @@ dbExecute(con, "
   FROM read_json_auto(path, maximum_object_size=1000000000);
 ")
 
-## PROPERTIES MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS properties (
     source VARCHAR,
@@ -84,7 +90,6 @@ dbExecute(con, "
     ORDER BY updated DESC;
 ")
 
-## INSTANCES MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS instances (
       source VARCHAR,
@@ -102,7 +107,6 @@ dbExecute(con, "
     ORDER BY n_records DESC;
 ")
 
-## OCCUPATIONS MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS occupations (
       source VARCHAR,
@@ -117,7 +121,6 @@ dbExecute(con, "
     FROM read_json_auto(path, maximum_object_size=1000000000);
 ")
 
-## CREDIT-MEMBERS MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS members (
       source VARCHAR,
@@ -140,7 +143,6 @@ dbExecute(con, "
     FROM read_json_auto(path, maximum_object_size=1000000000);
 ")
 
-## CREDITS-BY-ROLE MACRO
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS credits (
       source VARCHAR,
