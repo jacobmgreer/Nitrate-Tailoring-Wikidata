@@ -13,7 +13,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  cleanup-workflow-runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 14
+
   generate-parquet:
+    needs: cleanup-workflow-runs
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -94,11 +105,3 @@ jobs:
           files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete workflow runs
-        if: ${{ always() }}
-        uses: Mattraks/delete-workflow-runs@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          retain_days: 14

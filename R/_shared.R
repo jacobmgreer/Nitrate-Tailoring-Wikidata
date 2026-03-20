@@ -36,19 +36,30 @@ robust_fetch <- function(url, retries = 3, delay = 30) {
 # Process a SPARQL file and save only `results.bindings`
 process_sparql <- function(file) {
   url <- sparql_url(file)
-  resp <- robust_fetch(url)
-  content <- content(resp, as = "parsed", type = "application/json")
-  bindings <- content$results$bindings
-
-  json_path <- paste0("json/", basename(dirname(file)))
-  dir.create(json_path, showWarnings = F, recursive = T)
-  write_json(
-    x = bindings,
-    path = paste0(json_path, "/", basename(file), ".json"),
-    pretty = TRUE,
-    auto_unbox = TRUE)
-  message(sprintf("Saved bindings from %s", file))
-  return(paste0(json_path, "/", basename(file), ".json"))
+  for (attempt in 1:3) {
+    resp <- robust_fetch(url)
+    parsing_success <- FALSE
+    try({
+      content <- content(resp, as = "parsed", type = "application/json")
+      bindings <- content$results$bindings
+      parsing_success <- TRUE
+    }, silent = TRUE)
+    if (parsing_success) {
+      json_path <- paste0("json/", basename(dirname(file)))
+      dir.create(json_path, showWarnings = F, recursive = T)
+      write_json(
+        x = bindings,
+        path = paste0(json_path, "/", basename(file), ".json"),
+        pretty = TRUE,
+        auto_unbox = TRUE)
+      message(sprintf("Saved bindings from %s", file))
+      return(paste0(json_path, "/", basename(file), ".json"))
+    } else {
+      message(sprintf("Attempt %d failed for parsing %s.", attempt, file))
+      if (attempt < 3) Sys.sleep(30)
+    }
+  }
+  stop(sprintf("Failed to parse SPARQL results after %d attempts for %s.", 3, file))
 }
 
 # --- DuckDB setup unchanged ---
