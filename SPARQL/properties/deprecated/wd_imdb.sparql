@@ -1,0 +1,9 @@
+SELECT ?p ?item ?value ?reason WHERE {
+  VALUES (?p ?ps) {
+    (p:P345 ps:P345)
+  }
+  ?item ?p ?property. ## imdb id
+  ?property ?ps ?value;
+                 wikibase:rank wikibase:DeprecatedRank.
+  OPTIONAL { ?property pq:P2241 ?reason. }
+}

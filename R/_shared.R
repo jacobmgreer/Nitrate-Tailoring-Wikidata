@@ -19,7 +19,7 @@ sparql_url <- function(filename) {
   paste0("https://query.wikidata.org/sparql?query=", query, "&format=json")
 }
 
-# Robust fetch with retry logic
+# Robust fetch with retry logic (HTTP only)
 robust_fetch <- function(url, retries = 3, delay = 30) {
   for (i in seq_len(retries)) {
     resp <- try(GET(url), silent = TRUE)
@@ -36,30 +36,26 @@ robust_fetch <- function(url, retries = 3, delay = 30) {
 # Process a SPARQL file and save only `results.bindings`
 process_sparql <- function(file) {
   url <- sparql_url(file)
-  for (attempt in 1:3) {
-    resp <- robust_fetch(url)
-    parsing_success <- FALSE
-    try({
-      content <- content(resp, as = "parsed", type = "application/json")
-      bindings <- content$results$bindings
-      parsing_success <- TRUE
-    }, silent = TRUE)
-    if (parsing_success) {
-      json_path <- paste0("json/", basename(dirname(file)))
-      dir.create(json_path, showWarnings = F, recursive = T)
-      write_json(
-        x = bindings,
-        path = paste0(json_path, "/", basename(file), ".json"),
-        pretty = TRUE,
-        auto_unbox = TRUE)
-      message(sprintf("Saved bindings from %s", file))
-      return(paste0(json_path, "/", basename(file), ".json"))
-    } else {
-      message(sprintf("Attempt %d failed for parsing %s.", attempt, file))
-      if (attempt < 3) Sys.sleep(30)
-    }
+  resp <- robust_fetch(url)
+  parsing_success <- FALSE
+  try({
+    content <- content(resp, as = "parsed", type = "application/json")
+    bindings <- content$results$bindings
+    parsing_success <- TRUE
+  }, silent = TRUE)
+  if (parsing_success) {
+    json_path <- paste0("json/", basename(dirname(file)))
+    dir.create(json_path, showWarnings = F, recursive = T)
+    write_json(
+      x = bindings,
+      path = paste0(json_path, "/", basename(file), ".json"),
+      pretty = TRUE,
+      auto_unbox = TRUE)
+    message(sprintf("Saved bindings from %s", file))
+    return(paste0(json_path, "/", basename(file), ".json"))
+  } else {
+    stop(sprintf("Failed to parse SPARQL results for %s (fetch succeeded, parse failed).", file))
   }
-  stop(sprintf("Failed to parse SPARQL results after %d attempts for %s.", 3, file))
 }
 
 # --- DuckDB setup unchanged ---
@@ -169,5 +165,23 @@ dbExecute(con, "
       CAST(content_updated.value AS DATE) AS content_updated,
       parse_filename(credit.value) AS credit,
       CAST(credit_updated.value AS DATE) AS credit_updated
+    FROM read_json_auto(path, maximum_object_size=1000000000);
+")
+
+dbExecute(con, "
+  CREATE TEMP TABLE IF NOT EXISTS deprecated (
+      source VARCHAR,
+      p VARCHAR,
+      item VARCHAR,
+      value VARCHAR,
+      reason VARCHAR
+    );
+  CREATE MACRO deprecated(path, source) AS TABLE
+    SELECT 
+      source AS source,
+      parse_filename(p.value) AS property,
+      parse_filename(item.value) AS item,
+      value.value AS item,
+      parse_filename(reason.value) AS reason
     FROM read_json_auto(path, maximum_object_size=1000000000);
 ")
