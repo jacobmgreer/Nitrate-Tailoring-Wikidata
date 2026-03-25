@@ -34,28 +34,33 @@ robust_fetch <- function(url, retries = 3, delay = 30) {
 }
 
 # Process a SPARQL file and save only `results.bindings`
-process_sparql <- function(file) {
+process_sparql <- function(file, retries = 3, delay = 30) {
   url <- sparql_url(file)
-  resp <- robust_fetch(url)
-  parsing_success <- FALSE
-  try({
-    content <- content(resp, as = "parsed", type = "application/json")
-    bindings <- content$results$bindings
-    parsing_success <- TRUE
-  }, silent = TRUE)
-  if (parsing_success) {
-    json_path <- paste0("json/", basename(dirname(file)))
-    dir.create(json_path, showWarnings = F, recursive = T)
-    write_json(
-      x = bindings,
-      path = paste0(json_path, "/", basename(file), ".json"),
-      pretty = TRUE,
-      auto_unbox = TRUE)
-    message(sprintf("Saved bindings from %s", file))
-    return(paste0(json_path, "/", basename(file), ".json"))
-  } else {
-    stop(sprintf("Failed to parse SPARQL results for %s (fetch succeeded, parse failed).", file))
+  for (i in seq_len(retries)) {
+    resp <- robust_fetch(url, retries = 1, delay = 0) # Only 1 attempt per outer loop
+    parsing_success <- FALSE
+    bindings <- NULL
+    try({
+      content <- content(resp, as = "parsed", type = "application/json")
+      bindings <- content$results$bindings
+      parsing_success <- TRUE
+    }, silent = TRUE)
+    if (parsing_success) {
+      json_path <- paste0("json/", basename(dirname(file)))
+      dir.create(json_path, showWarnings = F, recursive = T)
+      write_json(
+        x = bindings,
+        path = paste0(json_path, "/", basename(file), ".json"),
+        pretty = TRUE,
+        auto_unbox = TRUE)
+      message(sprintf("Saved bindings from %s", file))
+      return(paste0(json_path, "/", basename(file), ".json"))
+    } else {
+      message(sprintf("Attempt %d failed to parse SPARQL results for %s.", i, file))
+      if (i < retries) Sys.sleep(delay)
+    }
   }
+  stop(sprintf("Failed to fetch and parse SPARQL results after %d attempts for %s.", retries, file))
 }
 
 # --- DuckDB setup unchanged ---

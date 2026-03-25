@@ -41,6 +41,7 @@ jobs:
           - properties_monitoring
           - properties_music
           - properties_people
+          - properties_deprecated
           - records_by_instance
           - special
     env:
