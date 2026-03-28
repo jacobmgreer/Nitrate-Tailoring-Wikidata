@@ -2,7 +2,7 @@ name: SPARQL Matrix Release
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "17 12 * * *"
   workflow_dispatch:
 
 permissions:
