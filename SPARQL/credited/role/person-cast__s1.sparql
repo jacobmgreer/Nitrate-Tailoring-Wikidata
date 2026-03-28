@@ -1,6 +1,0 @@
-SELECT ?content ?content_updated ?credit ?credit_updated WHERE {
-  ?content wdt:P161 ?credit;
-           schema:dateModified ?content_updated.
-  FILTER(YEAR(?content_updated) <= 2023)
-  ?credit schema:dateModified ?credit_updated.
-}

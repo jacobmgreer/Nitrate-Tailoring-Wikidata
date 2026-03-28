@@ -1,0 +1,4 @@
+SELECT ?property WHERE {
+  ?property ps:P4947 [];
+            wikibase:rank wikibase:DeprecatedRank.
+}

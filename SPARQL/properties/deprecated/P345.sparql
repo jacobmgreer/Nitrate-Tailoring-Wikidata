@@ -1,0 +1,7 @@
+SELECT ?property ?value WHERE {
+  # 1. Use the Rank as a direct match
+  ?property wikibase:rank wikibase:DeprecatedRank.
+  
+  # 2. Link that specific set of statements to the property
+  ?property ps:P345 ?value.
+}

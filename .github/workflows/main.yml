@@ -31,17 +31,15 @@ jobs:
         script:
           - awards
           - credits_by_role
+          - credits_by_company
           - credits_membered
-          - credits_occupations
-          - instances
           - properties_companies
           - properties_content
           - properties_events
-          - properties_large
-          - properties_monitoring
+          - properties_imdb
+          - properties_youtube
           - properties_music
           - properties_people
-          - properties_deprecated
           - records_by_instance
           - special
     env:

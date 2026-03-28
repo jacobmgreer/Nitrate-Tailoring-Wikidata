@@ -1,5 +1,0 @@
-SELECT ?content ?content_updated ?credit ?credit_updated WHERE {
-  ?content wdt:P162 ?credit; # producer
-           schema:dateModified ?content_updated.
-  ?credit schema:dateModified ?credit_updated.
-}

@@ -8,12 +8,12 @@ for (file in files) {
   tryCatch({
     # 1. Process and fetch the SPARQL query, saving JSON data
     json_path <- process_sparql(file)
-
+    fns = str_split(basename(file), "__", simplify = TRUE)
     # 2. Insert the JSON data into the DuckDB `records` table
     dbExecute(con, sprintf("
       INSERT INTO credits
-        FROM credits('%s', '%s');
-    ", json_path, str_split(basename(file), "__", simplify = TRUE)[,1]))
+        FROM credits('%s', '%s', '%s');
+    ", json_path, fns[,1], str_remove(fns[,2], ".sparql")))
 
   }, error = function(e) {
     message(sprintf("Error processing file %s: %s", file, e$message))

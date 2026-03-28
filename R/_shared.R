@@ -86,38 +86,35 @@ dbExecute(con, "
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS properties (
     source VARCHAR,
+    property VARCHAR,
     item VARCHAR,
-    prop VARCHAR,
-    value VARCHAR,
-    updated DATE
+    updated DATE,
   );
-  CREATE MACRO properties(path, source) AS TABLE
+  CREATE MACRO properties(path, source, prop) AS TABLE
     SELECT 
       source AS source,
+      prop AS property,
       parse_filename(item.value) AS item,
-      parse_filename(prop.value) AS prop,
-      value.value AS value,
       CAST(date.value AS DATE) AS updated
-    FROM read_json_auto(path, maximum_object_size=1000000000, ignore_errors = T)
-    ORDER BY updated DESC;
+    FROM read_json_auto(path, maximum_object_size=1000000000, ignore_errors = T);
 ")
 
-dbExecute(con, "
-  CREATE TEMP TABLE IF NOT EXISTS instances (
-      source VARCHAR,
-      p31 VARCHAR,
-      p31_updated DATE,
-      n_records INTEGER
-    );
-  CREATE MACRO instances(path, source) AS TABLE
-    SELECT 
-      source AS source, 
-      parse_filename(p31.value) AS p31,
-      CAST(p31_updated.value AS DATE) AS p31_updated,
-      CAST(record_count.value AS INTEGER) AS n_records
-    FROM read_json_auto(path, maximum_object_size=1000000000)
-    ORDER BY n_records DESC;
-")
+# dbExecute(con, "
+#   CREATE TEMP TABLE IF NOT EXISTS instances (
+#       source VARCHAR,
+#       p31 VARCHAR,
+#       p31_updated DATE,
+#       n_records INTEGER
+#     );
+#   CREATE MACRO instances(path, source) AS TABLE
+#     SELECT 
+#       source AS source, 
+#       parse_filename(p31.value) AS p31,
+#       CAST(p31_updated.value AS DATE) AS p31_updated,
+#       CAST(record_count.value AS INTEGER) AS n_records
+#     FROM read_json_auto(path, maximum_object_size=1000000000)
+#     ORDER BY n_records DESC;
+# ")
 
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS occupations (
@@ -158,35 +155,31 @@ dbExecute(con, "
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS credits (
       source VARCHAR,
+      property VARCHAR,
       content VARCHAR,
-      content_updated DATE,
-      credit VARCHAR,
-      credit_updated DATE
+      content_updated DATE
     );
-  CREATE MACRO credits(path, source) AS TABLE
+  CREATE MACRO credits(path, source, prop) AS TABLE
     SELECT 
       source AS source,
+      prop AS property,
       parse_filename(content.value) AS content,
-      CAST(content_updated.value AS DATE) AS content_updated,
-      parse_filename(credit.value) AS credit,
-      CAST(credit_updated.value AS DATE) AS credit_updated
+      CAST(updated.value AS DATE) AS content_updated
     FROM read_json_auto(path, maximum_object_size=1000000000);
 ")
 
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS deprecated (
       source VARCHAR,
-      p VARCHAR,
       item VARCHAR,
-      value VARCHAR,
-      reason VARCHAR
+      property VARCHAR,
+      value VARCHAR
     );
   CREATE MACRO deprecated(path, source) AS TABLE
     SELECT 
       source AS source,
-      parse_filename(p.value) AS property,
-      parse_filename(item.value) AS item,
-      value.value AS item,
-      parse_filename(reason.value) AS reason
+      split_part(parse_filename(property.value), '-', 1) AS item,
+      parse_filename(property.value) AS property,
+      value.value AS value
     FROM read_json_auto(path, maximum_object_size=1000000000);
 ")

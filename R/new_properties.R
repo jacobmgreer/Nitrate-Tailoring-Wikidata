@@ -8,19 +8,19 @@ props_df <- read_tsv("SPARQL/properties/_properties.tsv")
 # Remove disabled properties
 props_df <- props_df %>% filter(is.na(disabled) | disabled != 1)
 
-# Group props for combined (category) queries
-runs_categories <- props_df %>%
-  filter(query_type != "individual") %>%
-  group_by(table, category) %>%
-  reframe(
-    property = paste(property, collapse=" ")
-  )
+# # Group props for combined (category) queries
+# runs_categories <- props_df %>%
+#   filter(query_type != "individual") %>%
+#   group_by(table, category) %>%
+#   reframe(
+#     property = paste(property, collapse=" ")
+#   )
 
 runs_individual <- props_df %>%
-  filter(query_type == "individual") %>%
+  ##filter(query_type == "individual") %>%
   reframe(table, category, property)
 
-runs <- bind_rows(runs_categories, runs_individual)
+runs <- bind_rows(runs_individual)
 
 # Output a structured list for scripting
 plan <- list(
@@ -30,7 +30,7 @@ plan <- list(
 # Generates a SPARQL query for a set of properties
 generate_sparql_query <- function(props) {
   sprintf(
-    "SELECT ?item ?prop ?value ?date WHERE {\n  VALUES ?prop { %s }\n  ?item ?prop ?value;\n        schema:dateModified ?date.\n}", props
+    "SELECT ?item ?date WHERE {\n  VALUES ?prop { %s }\n  ?item ?prop [].\n  ?item schema:dateModified ?date.\n}", props
   )
 }
 
@@ -48,7 +48,7 @@ for (table_name in names(plan$runs)) {
     batch <- table_batches[i, ]
     props <- unlist(str_split(batch$property, " "))
     sparql_query <- generate_sparql_query(paste(props, collapse = " "))
-    sparql_file <- sprintf("%s/%s__%s.sparql", table_dir, batch$category, i)
+    sparql_file <- sprintf("%s/%s__%s.sparql", table_dir, batch$category, str_remove(batch$property, "wdt:"))
     writeLines(sparql_query, sparql_file)
   }
 }

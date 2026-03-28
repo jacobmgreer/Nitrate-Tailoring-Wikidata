@@ -13,7 +13,7 @@ for (file in files) {
     dbExecute(con, sprintf("
       INSERT INTO deprecated
         FROM deprecated('%s', '%s');
-    ", json_path, str_split(basename(file), "__", simplify = TRUE)[,1]))
+    ", json_path, str_remove(basename(file), ".sparql")))
 
   }, error = function(e) {
     message(sprintf("Error processing file %s: %s", file, e$message))

@@ -1,9 +1,0 @@
-SELECT ?p31 ?p31_updated (COUNT(DISTINCT ?record) AS ?record_count) WHERE {
-  ?record wdt:P6762 ?property. # record has property
-  ?record wdt:P31 ?p31. # ?record's instance of
-  ?p31 schema:dateModified ?p31_updated. # instance's date modified
-
-  FILTER(xsd:integer(STRAFTER(STR(?record), "Q")) >= 10000000)
-}
-GROUP BY ?p31 ?p31_updated
-ORDER BY DESC(?record_count)

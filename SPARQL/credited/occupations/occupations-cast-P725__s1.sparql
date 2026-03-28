@@ -1,5 +1,0 @@
-SELECT DISTINCT ?p106 ?p106_updated WHERE {
-  ?content wdt:P725 ?credit. # voice actor
-  ?credit wdt:P106 ?p106.
-  ?p106 schema:dateModified ?p106_updated.
-}

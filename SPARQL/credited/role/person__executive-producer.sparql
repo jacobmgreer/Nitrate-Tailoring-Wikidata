@@ -1,0 +1,4 @@
+SELECT ?content ?updated WHERE {
+  ?content wdt:P1431 [].
+  ?content schema:dateModified ?updated
+}

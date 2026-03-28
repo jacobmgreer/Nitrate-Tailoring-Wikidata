@@ -1,0 +1,6 @@
+SELECT ?item ?date WHERE {
+  ?item wdt:P345 ?value;
+        schema:dateModified ?date.
+
+  FILTER(STRSTARTS(STR(?value), "co"))
+}

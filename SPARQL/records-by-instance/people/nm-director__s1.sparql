@@ -1,7 +1,0 @@
-SELECT DISTINCT ?item ?date WHERE {
-  ?item (wdt:P106/(wdt:P279*)) wd:Q3455803;
-    schema:dateModified ?date.
-
-  BIND(xsd:integer(STRAFTER(STR(?item), "Q")) AS ?qnum)
-  FILTER(?qnum < 10000000)
-}
