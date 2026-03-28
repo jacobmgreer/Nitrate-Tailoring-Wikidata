@@ -116,19 +116,19 @@ dbExecute(con, "
 #     ORDER BY n_records DESC;
 # ")
 
-dbExecute(con, "
-  CREATE TEMP TABLE IF NOT EXISTS occupations (
-      source VARCHAR,
-      p106 VARCHAR,
-      p106_updated DATE
-    );
-  CREATE MACRO occupations(path, source) AS TABLE
-    SELECT 
-      source AS source, 
-      parse_filename(p106.value) AS p106,
-      CAST(p106_updated.value AS DATE) AS p106_updated
-    FROM read_json_auto(path, maximum_object_size=1000000000);
-")
+# dbExecute(con, "
+#   CREATE TEMP TABLE IF NOT EXISTS occupations (
+#       source VARCHAR,
+#       p106 VARCHAR,
+#       p106_updated DATE
+#     );
+#   CREATE MACRO occupations(path, source) AS TABLE
+#     SELECT 
+#       source AS source, 
+#       parse_filename(p106.value) AS p106,
+#       CAST(p106_updated.value AS DATE) AS p106_updated
+#     FROM read_json_auto(path, maximum_object_size=1000000000);
+# ")
 
 dbExecute(con, "
   CREATE TEMP TABLE IF NOT EXISTS members (
