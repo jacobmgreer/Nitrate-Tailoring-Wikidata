@@ -20,7 +20,7 @@ sparql_url <- function(filename) {
 }
 
 # Robust fetch with retry logic (HTTP only)
-robust_fetch <- function(url, retries = 3, delay = 30) {
+robust_fetch <- function(url, retries = 3, delay = 500) {
   for (i in seq_len(retries)) {
     resp <- try(GET(url), silent = TRUE)
     if (inherits(resp, "response") && status_code(resp) == 200) {
@@ -36,8 +36,10 @@ robust_fetch <- function(url, retries = 3, delay = 30) {
 # Process a SPARQL file and save only `results.bindings`
 process_sparql <- function(file, retries = 3, delay = 30) {
   url <- sparql_url(file)
+
+  # First attempt group: try fetching & parsing up to `retries` times
   for (i in seq_len(retries)) {
-    resp <- robust_fetch(url, retries = 1, delay = 0) # Only 1 attempt per outer loop
+    resp <- robust_fetch(url, retries = 1, delay = 0) # Only 1 HTTP fetch per outer loop
     parsing_success <- FALSE
     bindings <- NULL
     try({
@@ -60,7 +62,38 @@ process_sparql <- function(file, retries = 3, delay = 30) {
       if (i < retries) Sys.sleep(delay)
     }
   }
-  stop(sprintf("Failed to fetch and parse SPARQL results after %d attempts for %s.", retries, file))
+
+  # If here, all initial parsing attempts failed: wait, retry rescanning again
+  message(sprintf("Waiting 5 minutes before retrying fetch & parse for %s...", file))
+  Sys.sleep(5 * 60)
+
+  for (j in seq_len(retries)) {
+    resp <- robust_fetch(url, retries = 1, delay = 0)
+    parsing_success <- FALSE
+    bindings <- NULL
+    try({
+      content <- content(resp, as = "parsed", type = "application/json")
+      bindings <- content$results$bindings
+      parsing_success <- TRUE
+    }, silent = TRUE)
+    if (parsing_success) {
+      json_path <- paste0("json/", basename(dirname(file)))
+      dir.create(json_path, showWarnings = F, recursive = T)
+      write_json(
+        x = bindings,
+        path = paste0(json_path, "/", basename(file), ".json"),
+        pretty = TRUE,
+        auto_unbox = TRUE)
+      message(sprintf("Saved bindings from %s (after second retry group)", file))
+      return(paste0(json_path, "/", basename(file), ".json"))
+    } else {
+      message(sprintf("Second group: attempt %d failed to parse SPARQL results for %s.", j, file))
+      if (j < retries) Sys.sleep(delay)
+    }
+  }
+
+  # If *all* attempts fail, consider this matrix job failed
+  stop(sprintf("Failed to fetch and parse SPARQL results after retrying for %s.", file))
 }
 
 # --- DuckDB setup unchanged ---
