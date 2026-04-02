@@ -39,7 +39,7 @@ process_sparql <- function(file, retries = 3, delay = 30) {
 
   # First attempt group: try fetching & parsing up to `retries` times
   for (i in seq_len(retries)) {
-    resp <- robust_fetch(url, retries = 1, delay = 0) # Only 1 HTTP fetch per outer loop
+    resp <- robust_fetch(url, retries = 3, delay = 500) # Only 1 HTTP fetch per outer loop
     parsing_success <- FALSE
     bindings <- NULL
     try({
@@ -64,11 +64,11 @@ process_sparql <- function(file, retries = 3, delay = 30) {
   }
 
   # If here, all initial parsing attempts failed: wait, retry rescanning again
-  message(sprintf("Waiting 5 minutes before retrying fetch & parse for %s...", file))
-  Sys.sleep(5 * 60)
+  message(sprintf("Waiting 7 minutes before retrying fetch & parse for %s...", file))
+  Sys.sleep(7 * 60)
 
   for (j in seq_len(retries)) {
-    resp <- robust_fetch(url, retries = 1, delay = 0)
+    resp <- robust_fetch(url, retries = 3, delay = 0)
     parsing_success <- FALSE
     bindings <- NULL
     try({
