@@ -370,8 +370,7 @@ co	companies	wdt:P2335	category	SFDb Swedish Film Database company id			Sweden
 co	companies	wdt:P2468	category	theatricalia.com movie theater id					
 co	companies	wdt:P2531	category	BoxOfficeMojo studio id					
 co	companies	wdt:P3115	category	ISzDb company id			Hungary		
-co	companies	wdt:P3375	category	German Early Cinema Database company id			Germany		
-co	companies	wdt:P3458	category	CNC authorization number			France		
+co	companies	wdt:P3375	category	German Early Cinema Database company id			Germany			
 co	companies	wdt:P3703	category	JMDb person or company ID	1	combines people			
 co	companies	wdt:P4910	category	AlloCiné company id			France		
 co	companies	wdt:P4981	category	Kinoliste.com movie theater id			Germany		
