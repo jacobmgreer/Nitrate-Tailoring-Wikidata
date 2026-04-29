@@ -15,7 +15,7 @@ nm	americas	wdt:P2019	category	AllMovie film database
 nm	americas	wdt:P3857	category	cinenacional.com			Argentina			
 nm	americas	wdt:P4084	category	MyAnimeList						
 nm	americas	wdt:P4657	category	The Numbers						
-nm	americas	wdt:P5233	category	ilmow			Brazil			
+nm	americas	wdt:P5233	category	Filmow	1	combines films and people	Brazil			
 nm	americas	wdt:P10266	category	AdoraCinema			Brazil			
 nm	americas	wdt:P12309	category	Moviefone						
 nm	americas	wdt:P12426	category	Sundance Institute Digital Archive						
@@ -23,7 +23,7 @@ nm	asia	wdt:P1649	category	KMDb			Korea
 nm	asia	wdt:P3045	category	HanCinema			Korea			
 nm	asia	wdt:P3140	category	SourehCinema			Iran			
 nm	asia	wdt:P3142	category	EDb			Israel			
-nm	asia	wdt:P3145	category	Sratim			Israel			
+nm	asia	wdt:P3145	category	Sratim	1	combines films and people	Israel			
 nm	asia	wdt:P3146	category	CiNetMag			Iran			
 nm	asia	wdt:P3305	category	KINENOTE			Japan			
 nm	asia	wdt:P3346	category	HKMDB			Hong Kong			
@@ -97,7 +97,7 @@ nm	europe-western	wdt:P6083	category	Cineuropa
 nm	europe-western	wdt:P1266	category	AlloCiné			France			
 nm	europe-western	wdt:P3204	category	Ciné-Ressources			France			
 nm	europe-western	wdt:P3366	category	German Early Cinema Database			Germany			
-nm	europe-western	wdt:P3933	category	cinema.de			Germany			
+nm	europe-western	wdt:P3933	category	cinema.de	1	combines films and people	Germany			
 nm	europe-western	wdt:P3980	category	unifrance.org			France			
 nm	europe-western	wdt:P4326	category	BFI			UK			
 nm	europe-western	wdt:P4332	category	Deutsche Synchronkartei			Germany			
