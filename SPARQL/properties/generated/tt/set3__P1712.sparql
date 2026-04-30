@@ -1,5 +1,0 @@
-SELECT ?item ?date WHERE {
-  VALUES ?prop { wdt:P1712 }
-  ?item ?prop [].
-  ?item schema:dateModified ?date.
-}

@@ -29,7 +29,7 @@ nm	asia	wdt:P3305	category	KINENOTE			Japan
 nm	asia	wdt:P3346	category	HKMDB			Hong Kong			
 nm	asia	wdt:P3445	category	Cinema of Israel			Israel			
 nm	asia	wdt:P3703	category	JMDb			Japan			
-nm	asia	wdt:P3821	category	Bangla Movie Db			Bangladesh			
+nm	asia	wdt:P3821	category	Bangla Movie Db	1	combines films and people	Bangladesh			
 nm	asia	wdt:P3910	category	Bollywood Hungama			India			
 nm	asia	wdt:P5284	category	Douban			China			
 nm	asia	wdt:P6255	category	SinemaTürk			Turkey			
@@ -290,7 +290,7 @@ tt	europe-western	wdt:P3203	category	Ciné-Ressources			France
 tt	europe-western	wdt:P3367	category	German Early Cinema Database GECD			Germany			
 tt	europe-western	wdt:P3673	category	film-documentaire.fr			France			
 tt	europe-western	wdt:P3844	category	Deutsche Synchronkartei			Germany			
-tt	europe-western	wdt:P3933	category	cinema.de			Germany			
+tt	europe-western	wdt:P3933	category	cinema.de	1	combines films and people	Germany			
 tt	europe-western	wdt:P3961	category	unifrance.org			France			
 tt	europe-western	wdt:P4438	category	BFI Film & TV Database			UK			
 tt	europe-western	wdt:P4515	category	prisma.de			Germany			
@@ -341,7 +341,7 @@ tt	set3	wdt:P5693	category	Fandango
 tt	set3	wdt:P5865	category	IGN						
 tt	set3	wdt:P5990	category	MoviesAnywhere						
 tt	set3	wdt:P4632	category	Bechdel Test Movie List						
-tt	set3	wdt:P1712	category	Metacritic						
+tt	set3	wdt:P1712	category	Metacritic	1	combines films and people				
 tt	set3	wdt:P1562	category	AllMovie						
 tt	set3	wdt:P1258	category	RottenTomatoes						
 tt	set3	wdt:P1237	category	Box Office Mojo						
