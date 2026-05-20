@@ -1,4 +1,4 @@
-SELECT ?content ?updated WHERE {
-  ?content wdt:P162 [].
-  ?content schema:dateModified ?updated
+SELECT DISTINCT ?content ?updated WHERE {
+  ?content wdt:P162 [];
+           schema:dateModified ?updated
 }

@@ -1,0 +1,6 @@
+SELECT DISTINCT ?person ?personLabel
+WHERE {
+  [] wdt:P2515 ?person.
+  ?person wdt:P31 wd:Q5.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,mul". }
+}

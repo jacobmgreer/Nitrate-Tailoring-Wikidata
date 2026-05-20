@@ -35,11 +35,13 @@ jobs:
           - credits_membered
           - properties_companies
           - properties_content
+          - properties_deprecated
           - properties_events
           - properties_imdb
-          - properties_youtube
+          - properties_labels
           - properties_music
           - properties_people
+          - properties_youtube
           - records_by_instance
           - special
     env:

@@ -1,3 +1,0 @@
-SELECT ?content WHERE {
-  ?content wdt:P161 [].
-}

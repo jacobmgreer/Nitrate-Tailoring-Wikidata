@@ -1,4 +1,5 @@
-SELECT ?item ?date WHERE {
-  ?item wdt:P31 wd:Q506240.
-  ?item schema:dateModified ?date.
+
+SELECT DISTINCT ?item ?date WHERE {
+  ?item (wdt:P31/(wdt:P279*)) wd:Q506240;
+                              schema:dateModified ?date.
 }

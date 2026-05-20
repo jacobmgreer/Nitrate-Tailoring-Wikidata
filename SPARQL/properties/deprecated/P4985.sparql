@@ -1,4 +1,4 @@
-SELECT ?property WHERE {
-  ?property ps:P4985 [];
-            wikibase:rank wikibase:DeprecatedRank.
+SELECT DISTINCT ?property ?value WHERE {
+  ?property wikibase:rank wikibase:DeprecatedRank;
+            ps:P4985 ?value.
 }

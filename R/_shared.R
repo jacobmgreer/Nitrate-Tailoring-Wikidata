@@ -216,3 +216,17 @@ dbExecute(con, "
       value.value AS value
     FROM read_json_auto(path, maximum_object_size=1000000000);
 ")
+
+dbExecute(con, "
+  CREATE TEMP TABLE IF NOT EXISTS labels (
+      source VARCHAR,
+      item VARCHAR,
+      label VARCHAR
+    );
+  CREATE MACRO labels(path, source) AS TABLE
+    SELECT 
+      source AS source,
+      split_part(parse_filename(person.value), '-', 1) AS item,
+      personLabel.value AS value
+    FROM read_json_auto(path, maximum_object_size=1000000000);
+")

@@ -1,0 +1,19 @@
+SELECT DISTINCT ?person ?personLabel
+WHERE {
+  {
+    SELECT DISTINCT ?person WHERE {
+      [] wdt:P161 ?person.
+      ?person wdt:P31 wd:Q5.
+      
+      # 1. Generate a consistent hash of the person's URI and take the first character
+      BIND(SUBSTR(MD5(STR(?person)), 1, 1) AS ?firstChar)
+      
+      # Q1: FILTER(?firstChar IN ("0", "1", "2", "3"))
+      # Q2: FILTER(?firstChar IN ("4", "5", "6", "7"))
+      # Q3: FILTER(?firstChar IN ("8", "9", "a", "b"))
+      # Q4: FILTER(?firstChar IN ("c", "d", "e", "f"))
+      FILTER(?firstChar IN ("c", "d", "e", "f"))
+    }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,mul". }
+}

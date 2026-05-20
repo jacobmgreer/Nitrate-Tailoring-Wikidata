@@ -30,7 +30,7 @@ plan <- list(
 # Generates a SPARQL query for a set of properties
 generate_sparql_query <- function(props) {
   sprintf(
-    "SELECT ?item ?date WHERE {\n  VALUES ?prop { %s }\n  ?item ?prop [].\n  ?item schema:dateModified ?date.\n}", props
+    "SELECT ?item ?date WHERE {\n  VALUES ?prop { %s }\n  ?item ?prop [];\n  schema:dateModified ?date.\n}", props
   )
 }
 

@@ -1,5 +1,5 @@
 SELECT ?item ?date WHERE {
   VALUES ?prop { wdt:P1982 }
-  ?item ?prop [].
-  ?item schema:dateModified ?date.
+  ?item ?prop [];
+  schema:dateModified ?date.
 }
